@@ -11,6 +11,23 @@ public class VideoController : MonoBehaviour
     void Start()
     {
         video.loopPointReached += FinVideo;
+
+        //para que funcione el skip de frames
+        video.skipOnDrop = false;
+    }
+
+    void Update()
+    {
+        SkipCinematic();
+    }
+
+    void SkipCinematic()
+    {
+
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.S))
+        {
+            video.time = video.length;
+        }
     }
 
     void FinVideo(VideoPlayer vp)
@@ -18,4 +35,3 @@ public class VideoController : MonoBehaviour
         sceneChanger.ChangeScene(idScene);
     }
 }
-

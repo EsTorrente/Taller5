@@ -9,7 +9,7 @@ public class VideoUIController : MonoBehaviour
 
     void Start()
     {
-        ActualizarIcono();
+        botonTexto.text = "Pausar";
     }
 
     public void TogglePlayPause()
