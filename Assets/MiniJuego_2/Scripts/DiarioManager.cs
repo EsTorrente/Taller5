@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class DiarioManager : MonoBehaviour
 {
     [Header("Objetos")]
     public GameObject diarioCerrado;
     public GameObject panelCombinacion;
+    public GameObject diarioLyra;
 
     [Header("Textos de las casillas")]
     public TextMeshProUGUI texto1;
@@ -16,7 +16,7 @@ public class DiarioManager : MonoBehaviour
     public TextMeshProUGUI texto3;
 
     private int[] digitos = { 0, 0, 0 };
-    private int[] codigoCorrecto = { 0, 0, 0 };
+    private int[] codigoCorrecto = { 5, 8, 2 };
 
     void Start()
     {
@@ -24,7 +24,6 @@ public class DiarioManager : MonoBehaviour
         panelCombinacion.SetActive(false);
     }
 
-    // Abre el diario desde DiarioLyra
     public void AbrirDiario()
     {
         diarioCerrado.SetActive(true);
@@ -32,14 +31,19 @@ public class DiarioManager : MonoBehaviour
         ActualizarTextos();
     }
 
-    // Botones arriba
+    public void CerrarDiario()
+    {
+        diarioCerrado.SetActive(false);
+        panelCombinacion.SetActive(false);
+        diarioLyra.SetActive(true);
+    }
+
     public void SubirDigito(int indice)
     {
         digitos[indice] = (digitos[indice] + 1) % 10;
         ActualizarTextos();
     }
 
-    // Botones abajo
     public void BajarDigito(int indice)
     {
         digitos[indice] = (digitos[indice] + 9) % 10;
@@ -55,17 +59,14 @@ public class DiarioManager : MonoBehaviour
 
     public void Comprobar()
     {
+        Debug.Log("Digitos ingresados: " + digitos[0] + " " + digitos[1] + " " + digitos[2]);
+
         if (digitos[0] == codigoCorrecto[0] &&
             digitos[1] == codigoCorrecto[1] &&
             digitos[2] == codigoCorrecto[2])
         {
-            Debug.Log("CORRECTO - fin del juego");
-            Application.Quit();
-
-            // Esto es para probar en el editor:
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
+            Debug.Log("CORRECTO");
+            SceneManager.LoadScene("SampleScene");
         }
         else
         {
