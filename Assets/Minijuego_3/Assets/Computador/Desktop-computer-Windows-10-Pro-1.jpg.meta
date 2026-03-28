@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Desktop-computer-Windows-10-Pro-1_0: 1138512251494406695
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

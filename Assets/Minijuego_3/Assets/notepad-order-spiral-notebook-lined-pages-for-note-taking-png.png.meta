@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      notepad-order-spiral-notebook-lined-pages-for-note-taking-png_0: 6756655289429304280
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
