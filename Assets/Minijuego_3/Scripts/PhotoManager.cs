@@ -10,7 +10,7 @@ public class PhotoManager : MonoBehaviour
     private HashSet<int> solvedPhotos = new HashSet<int>();
     public Image photoDisplay;
     public List<ClueUI> clueSlots;
-    public NotepadUI notepad;
+    public notebookUI notepad;
     public AudioSource audioSource;
 
     private int index = 0;
@@ -81,7 +81,7 @@ public bool IsCurrentPhotoSolved()
 
     if (notepad != null)
     {
-        notepad.AddNote(" " + clue + "\n");
+        notepad.AddClue(clue);
     }
     else
     {

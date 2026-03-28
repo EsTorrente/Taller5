@@ -74,4 +74,14 @@ public class notebookUI : MonoBehaviour
         PlayerPrefs.SetString("NotebookText", inputField.text);
         PlayerPrefs.Save();
     }
+
+    public void AddClue(string clue)
+    {
+        if (inputField.text.Contains(clue))
+            return;
+
+        inputField.text += "\n• " + clue;
+
+        SaveText();
+    }
 }
