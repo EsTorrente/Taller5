@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Corto_1.unity
     guid: 4bc6b98737e8c884ea611ad4940f1977
   - enabled: 1
+    path: Assets/Scenes/MiniJuego_1.unity
+    guid: a1541b658aa4ca749add199b389c23da
+  - enabled: 1
     path: Assets/Scenes/Corto_2.unity
     guid: db47ec0cb543a1545926893ceb7486c6
   - enabled: 1

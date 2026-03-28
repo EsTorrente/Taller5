@@ -716,7 +716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   video: {fileID: 1253704978}
   sceneChanger: {fileID: 1948251931}
-  idScene: 1
+  idScene: 2
 --- !u!328 &1253704978
 VideoPlayer:
   m_ObjectHideFlags: 0

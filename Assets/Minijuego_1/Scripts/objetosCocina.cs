@@ -18,7 +18,6 @@ public class objetosCocina : MonoBehaviour
     {
         // widthInSlots  = (int)(transform.localScale.x / 2)
         // heightInSlots = (int)(transform.localScale.y / 2)
-        // Puedes calcularlo automáticamente así:
         widthInSlots = Mathf.RoundToInt(transform.localScale.x / 2);
         heightInSlots = Mathf.RoundToInt(transform.localScale.y / 2);
     }
