@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class ComputerManager : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject panel;
     public GameObject loginPanel;
     public GameObject desktopPanel;
 
@@ -18,8 +17,7 @@ public class ComputerManager : MonoBehaviour
 
     void Start()
     {
-        panel.SetActive(false);
-        loginPanel.SetActive(true);
+        loginPanel.SetActive(false);
         desktopPanel.SetActive(false);
 
         errorText.text = "";
@@ -28,16 +26,6 @@ public class ComputerManager : MonoBehaviour
     public void OnPasswordChanged()
     {
         errorText.text = "";
-    }
-
-    public void Show()
-    {
-        panel.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        panel.SetActive(false);
     }
 
     public void TryLogin()

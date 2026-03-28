@@ -1507,6 +1507,7 @@ GameObject:
   - component: {fileID: 1372401656}
   - component: {fileID: 1372401657}
   - component: {fileID: 1372401658}
+  - component: {fileID: 1372401659}
   m_Layer: 0
   m_Name: MiniGameManager
   m_TagString: Untagged
@@ -1554,6 +1555,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pin: {fileID: 1131529320}
+--- !u!114 &1372401659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372401654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d94aea716c56e8640b4742fdbf358eb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1521416882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,14 +1699,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 650352288}
-        m_TargetAssemblyTypeName: PostItSpawner, Assembly-CSharp
-        m_MethodName: SpawnPostIt
-        m_Mode: 1
+      - m_Target: {fileID: 1372401659}
+        m_TargetAssemblyTypeName: SceneChanger, GameScripts
+        m_MethodName: ChangeScene
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 9
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
