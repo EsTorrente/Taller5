@@ -6,7 +6,6 @@ public class VideoController : MonoBehaviour
 {
     public VideoPlayer video;
     public SceneChanger sceneChanger;
-    public int idScene;
 
     void Start()
     {
@@ -15,7 +14,7 @@ public class VideoController : MonoBehaviour
 
     void FinVideo(VideoPlayer vp)
     {
-        sceneChanger.ChangeScene(idScene);
+        sceneChanger.ChangeScene(1);
     }
 }
 
