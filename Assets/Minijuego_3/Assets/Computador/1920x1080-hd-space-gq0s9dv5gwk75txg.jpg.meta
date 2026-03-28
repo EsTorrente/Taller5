@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      1920x1080-hd-space-gq0s9dv5gwk75txg_0: 7820396370644560811
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

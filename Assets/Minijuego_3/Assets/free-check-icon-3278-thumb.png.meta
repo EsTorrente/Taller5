@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      free-check-icon-3278-thumb_0: -7621694402241112278
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

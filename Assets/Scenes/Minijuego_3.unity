@@ -381,7 +381,7 @@ MonoBehaviour:
   desktopPanel: {fileID: 807827866}
   passwordInput: {fileID: 1250323860}
   errorText: {fileID: 819260948}
-  correctPassword: 12052005
+  correctPassword: 070106
 --- !u!4 &32569384
 Transform:
   m_ObjectHideFlags: 0
