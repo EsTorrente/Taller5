@@ -6,10 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Corto_1.unity
+    path: Assets/Scenes/Corto_inicio.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Corto_2.unity
+    path: Assets/Scenes/Corto_1.unity
     guid: 4bc6b98737e8c884ea611ad4940f1977
+  - enabled: 1
+    path: Assets/Scenes/Corto_2.unity
+    guid: db47ec0cb543a1545926893ceb7486c6
+  - enabled: 1
+    path: Assets/Scenes/Corto_3.unity
+    guid: 1a22323ecb43b6a4698e5c3a20259e1c
+  - enabled: 1
+    path: Assets/Scenes/Corto_4.unity
+    guid: a04320ca7231c3740b83a6decad623bb
+  - enabled: 1
+    path: Assets/Scenes/Corto_final.unity
+    guid: c2066217bfa319e4bb4a76b0c2b57ee4
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
