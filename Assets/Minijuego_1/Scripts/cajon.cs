@@ -26,8 +26,8 @@ public class cajon : MonoBehaviour
     private bool gameWon = false;
 
     // Cuadrícula lógica: null = vacío, referencia = bloque que ocupa ese slot
-    private objetosCocina[,] grid;
-    void Awake()
+    public objetosCocina[,] grid;
+    public void Awake()
     {
         grid = new objetosCocina[columns, rows];
     }
@@ -60,7 +60,7 @@ public class cajon : MonoBehaviour
             block.transform.position = pos;
         }
     }
-    void RegisterBlock(objetosCocina block)
+    public void RegisterBlock(objetosCocina block)
     {
         for (int c = block.gridCol; c < block.gridCol + block.widthInSlots; c++)
             for (int r = block.gridRow; r < block.gridRow + block.heightInSlots; r++)
@@ -210,7 +210,7 @@ public class cajon : MonoBehaviour
         StartCoroutine(AnimateMove(block.transform, targetPos));
     }
 
-    bool CanMoveTo(objetosCocina block, int newCol, int newRow)
+    public bool CanMoveTo(objetosCocina block, int newCol, int newRow)
     {
         for (int c = newCol; c < newCol + block.widthInSlots; c++)
         {

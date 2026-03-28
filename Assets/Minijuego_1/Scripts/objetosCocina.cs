@@ -14,7 +14,7 @@ public class objetosCocina : MonoBehaviour
 
     [HideInInspector] public bool isSelected = false;
 
-    void Awake()
+    public void Awake()
     {
         // widthInSlots  = (int)(transform.localScale.x / 2)
         // heightInSlots = (int)(transform.localScale.y / 2)

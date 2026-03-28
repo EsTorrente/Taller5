@@ -15,8 +15,8 @@ public class DiarioManager : MonoBehaviour
     public TextMeshProUGUI texto2;
     public TextMeshProUGUI texto3;
 
-    private int[] digitos = { 0, 0, 0 };
-    private int[] codigoCorrecto = { 5, 8, 2 };
+    public int[] digitos = { 0, 0, 0 };
+    public int[] codigoCorrecto = { 5, 8, 2 };
 
     void Start()
     {
@@ -66,7 +66,7 @@ public class DiarioManager : MonoBehaviour
             digitos[2] == codigoCorrecto[2])
         {
             Debug.Log("CORRECTO");
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("Corto_3");
         }
         else
         {
