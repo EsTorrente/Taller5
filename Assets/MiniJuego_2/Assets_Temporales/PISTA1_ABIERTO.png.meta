@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PISTA1_ABIERTO_0: -3406162788044698405
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

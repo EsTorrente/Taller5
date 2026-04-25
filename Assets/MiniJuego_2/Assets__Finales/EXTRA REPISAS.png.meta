@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 8fb2a10859ed9f54f88effd69a351746
+guid: 693c7833d4ccf6e47aad65748690bd19
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7672070856624280817
-    second: PISTA1_0
+      213: 1078945208605169049
+    second: EXTRA REPISAS_0
+  - first:
+      213: -5355391812016444003
+    second: EXTRA REPISAS_1
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -98,22 +101,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PISTA1_0
+      name: EXTRA REPISAS_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 18
-        width: 383
-        height: 164
+        y: 0
+        width: 884
+        height: 424
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f0b684b4434578590800000000000000
-      internalID: -7672070856624280817
+      spriteID: 42f59865ce1ddd74ebe126d6167158ab
+      internalID: -1313367473
       vertices: []
       indices: 
       edges: []
@@ -121,7 +124,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d004e003242f87049b35b90fd2d6295c
     internalID: 0
     vertices: []
     indices: 
@@ -129,7 +132,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PISTA1_0: -7672070856624280817
+      EXTRA REPISAS_0: -1313367473
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

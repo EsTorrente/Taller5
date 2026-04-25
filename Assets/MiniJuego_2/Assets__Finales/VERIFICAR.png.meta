@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8fb2a10859ed9f54f88effd69a351746
+guid: 45e38007d3c43d8468dea88f20964f50
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7672070856624280817
-    second: PISTA1_0
+      213: 1062247726329867514
+    second: COMENZAR_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -98,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PISTA1_0
+      name: COMENZAR_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 18
-        width: 383
-        height: 164
+        x: 4
+        y: 5
+        width: 150
+        height: 389
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0b684b4434578590800000000000000
-      internalID: -7672070856624280817
+      spriteID: afcab57ddacddbe00800000000000000
+      internalID: 1062247726329867514
       vertices: []
       indices: 
       edges: []
@@ -129,7 +129,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PISTA1_0: -7672070856624280817
+      COMENZAR_0: 1062247726329867514
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

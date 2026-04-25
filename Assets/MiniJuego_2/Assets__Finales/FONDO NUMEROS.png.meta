@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8fb2a10859ed9f54f88effd69a351746
+guid: 424e0164684d81d4ea71f8f9491f1555
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7672070856624280817
-    second: PISTA1_0
+      213: 3951038226581035165
+    second: FONDO NUMEROS_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -98,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PISTA1_0
+      name: FONDO NUMEROS_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 18
-        width: 383
-        height: 164
+        x: 8
+        y: 12
+        width: 140
+        height: 379
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0b684b4434578590800000000000000
-      internalID: -7672070856624280817
+      spriteID: d981a556558e4d630800000000000000
+      internalID: 3951038226581035165
       vertices: []
       indices: 
       edges: []
@@ -128,8 +128,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      PISTA1_0: -7672070856624280817
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

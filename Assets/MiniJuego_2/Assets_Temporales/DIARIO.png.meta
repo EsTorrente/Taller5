@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DIARIO_0: -1206949462697513640
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

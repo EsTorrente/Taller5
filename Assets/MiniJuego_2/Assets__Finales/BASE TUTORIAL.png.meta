@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8fb2a10859ed9f54f88effd69a351746
+guid: f7342546e54833042ab0167dfa1c6dd4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7672070856624280817
-    second: PISTA1_0
+      213: -6834209272987644127
+    second: BASE TOTORIAL_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -98,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PISTA1_0
+      name: BASE TOTORIAL_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 18
-        width: 383
-        height: 164
+        y: 0
+        width: 1920
+        height: 1200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0b684b4434578590800000000000000
-      internalID: -7672070856624280817
+      spriteID: 12f04ea10e20821a0800000000000000
+      internalID: -6834209272987644127
       vertices: []
       indices: 
       edges: []
@@ -129,7 +129,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PISTA1_0: -7672070856624280817
+      BASE TOTORIAL_0: -6834209272987644127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
