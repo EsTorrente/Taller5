@@ -16,7 +16,7 @@ public class DiarioManager : MonoBehaviour
     public TextMeshProUGUI texto3;
 
     public int[] digitos = { 0, 0, 0 };
-    public int[] codigoCorrecto = { 5, 8, 2 };
+    public int[] codigoCorrecto = { 5, 6, 2 };
 
     void Start()
     {
