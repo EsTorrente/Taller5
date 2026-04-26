@@ -1,30 +1,39 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ThreadManager : MonoBehaviour
 {
     public GameObject linePrefab;
 
-    private RectTransform first;
+    private ThreadPoint firstPoint;
 
-    public void SelectPoint(RectTransform point)
+    public bool SelectPoint(ThreadPoint point)
     {
-        if (first == null)
+        if (firstPoint == null)
         {
-            first = point;
+            firstPoint = point;
+            return true;
         }
         else
         {
-            CreateLine(first, point);
-            first = null;
+            CreateLine(firstPoint, point);
+
+            firstPoint.SetSelected(false);
+            point.SetSelected(false);
+
+            firstPoint = null;
+            return false;
         }
     }
 
-    void CreateLine(RectTransform a, RectTransform b)
+    void CreateLine(ThreadPoint a, ThreadPoint b)
     {
         GameObject obj = Instantiate(linePrefab, transform);
 
         ThreadLine line = obj.GetComponent<ThreadLine>();
-        line.pointA = a;
-        line.pointB = b;
+        line.pointA = a.GetComponent<RectTransform>();
+        line.pointB = b.GetComponent<RectTransform>();
+
+        a.AddConnection(line);
+        b.AddConnection(line);
     }
 }

@@ -256,7 +256,7 @@ public class NewTestScript
     /// no llamo Comprobar() directamente pq en el caso correcto llama a SceneManager.LoadScene(), que crashea en Edit Mode
     public static IEnumerable<TestCaseData> ComprobarData()
     {
-        yield return new TestCaseData(5, 8, 2, true).SetName("Codigo_Correcto_582");
+        yield return new TestCaseData(5, 6, 2, true).SetName("Codigo_Correcto_562");
         yield return new TestCaseData(0, 0, 0, false).SetName("Codigo_Incorrecto_000");
         yield return new TestCaseData(5, 8, 0, false).SetName("Codigo_Incorrecto_580");
         yield return new TestCaseData(5, 0, 2, false).SetName("Codigo_Incorrecto_502");
@@ -507,19 +507,27 @@ public class NewTestScript
         ThreadManager manager = managerObj.AddComponent<ThreadManager>();
         manager.linePrefab = prefab;
 
-        RectTransform r1 = new GameObject().AddComponent<RectTransform>();
-        RectTransform r2 = new GameObject().AddComponent<RectTransform>();
+        GameObject obj1 = new GameObject();
+        GameObject obj2 = new GameObject();
 
-        manager.SelectPoint(r1); // primera selección se guarda
-        manager.SelectPoint(r2); // segunda selección crea la línea
+        RectTransform r1 = obj1.AddComponent<RectTransform>();
+        RectTransform r2 = obj2.AddComponent<RectTransform>();
 
-        //debe existir un ThreadLine hijo del manager
+        ThreadPoint p1 = obj1.AddComponent<ThreadPoint>();
+        ThreadPoint p2 = obj2.AddComponent<ThreadPoint>();
+
+        p1.manager = manager;
+        p2.manager = manager;
+
+        manager.SelectPoint(p1); 
+        manager.SelectPoint(p2);
+
         ThreadLine created = managerObj.GetComponentInChildren<ThreadLine>();
         Assert.IsNotNull(created, "ThreadLine debe instanciarse después de dos selecciones");
 
         Object.DestroyImmediate(managerObj);
         Object.DestroyImmediate(prefab);
-        Object.DestroyImmediate(r1.gameObject);
-        Object.DestroyImmediate(r2.gameObject);
+        Object.DestroyImmediate(obj1);
+        Object.DestroyImmediate(obj2);
     }
 }

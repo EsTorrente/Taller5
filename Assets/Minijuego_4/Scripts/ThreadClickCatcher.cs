@@ -16,7 +16,7 @@ public class ThreadClickCatcher : MonoBehaviour
 
         foreach (var hit in results)
         {
-            //  borrar hilo
+
             ThreadLine thread = hit.gameObject.GetComponent<ThreadLine>();
             if (thread != null)
             {
@@ -24,7 +24,7 @@ public class ThreadClickCatcher : MonoBehaviour
                 return;
             }
 
-            // buscar post-it
+
             Transform t = hit.gameObject.transform;
 
             while (t != null)
@@ -35,6 +35,12 @@ public class ThreadClickCatcher : MonoBehaviour
 
                     if (point != null)
                         point.ClearConnections();
+
+                    if (StickerManager.Instance != null)
+                    {
+                        StickerManager.Instance.RemoveStickersFromParent(t);
+                    }
+
 
                     Destroy(t.gameObject);
                     return;
