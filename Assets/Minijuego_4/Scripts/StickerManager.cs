@@ -47,28 +47,44 @@ public class StickerManager : MonoBehaviour
 
         if (prefab == null) return;
 
-        if (!stickers.ContainsKey(type))
+        if (stickers.ContainsKey(type))
+        {
+            GameObject sticker = stickers[type];
+
+            if (currentSticker == sticker)
+            {
+                ReturnStickerToDrawer(type);
+                return;
+            }
+
+            currentSticker = sticker;
+        }
+        else
         {
             GameObject instance = Instantiate(prefab, canvasRect);
             stickers[type] = instance;
+            currentSticker = instance;
         }
 
-        currentSticker = stickers[type];
+        currentSticker.transform.SetParent(canvasRect);
+        currentSticker.transform.SetAsLastSibling();
 
         StickerVisual visual = currentSticker.GetComponent<StickerVisual>();
         if (visual != null)
-        {
             visual.SetFollowing(true);
-        }
-
-
-        currentSticker.transform.SetParent(canvasRect);
-        currentSticker.transform.SetAsLastSibling(); 
     }
 
     public void PlaceSticker(Transform parent)
     {
         if (currentSticker == null) return;
+
+        string type = GetStickerType(currentSticker);
+
+        if (!IsValidPlacement(type, parent))
+        {
+            StartCoroutine(BlinkRed(currentSticker));
+            return;
+        }
 
         RectTransform rt = currentSticker.GetComponent<RectTransform>();
         RectTransform parentRect = parent as RectTransform;
@@ -86,9 +102,7 @@ public class StickerManager : MonoBehaviour
 
         StickerVisual visual = currentSticker.GetComponent<StickerVisual>();
         if (visual != null)
-        {
             visual.SetFollowing(false);
-        }
 
         currentSticker = null;
     }
@@ -112,6 +126,81 @@ public class StickerManager : MonoBehaviour
         {
             stickers.Remove(key);
         }
+
+        currentSticker = null;
+    }
+
+    public bool AreAllStickersPlaced()
+    {
+        if (!stickers.ContainsKey("clock") || !stickers.ContainsKey("guilt"))
+            return false;
+
+        GameObject clock = stickers["clock"];
+        GameObject guilt = stickers["guilt"];
+
+        if (clock == null || guilt == null)
+            return false;
+
+        if (clock.transform.parent == canvasRect) return false;
+        if (guilt.transform.parent == canvasRect) return false;
+
+        return true;
+    }
+
+    string GetStickerType(GameObject sticker)
+    {
+        foreach (var kvp in stickers)
+        {
+            if (kvp.Value == sticker)
+                return kvp.Key;
+        }
+
+        return "";
+    }
+
+    bool IsValidPlacement(string type, Transform target)
+    {
+        if (target == null) return false;
+
+        Transform t = target;
+
+        while (t != null)
+        {
+            if (type == "clock" && t.CompareTag("PostIt"))
+                return true;
+
+            if (type == "guilt" && (t.CompareTag("Photo") || t.CompareTag("GuiltZone")))
+                return true;
+
+            t = t.parent;
+        }
+
+        return false;
+    }
+
+    System.Collections.IEnumerator BlinkRed(GameObject sticker)
+    {
+        var img = sticker.GetComponent<UnityEngine.UI.Image>();
+        if (img == null) yield break;
+
+        Color original = img.color;
+
+        img.color = Color.red;
+        yield return new WaitForSeconds(0.15f);
+
+        img.color = original;
+    }
+
+    void ReturnStickerToDrawer(string type)
+    {
+        if (!stickers.ContainsKey(type)) return;
+
+        GameObject sticker = stickers[type];
+
+        if (sticker != null)
+            Destroy(sticker);
+
+        stickers.Remove(type);
 
         currentSticker = null;
     }

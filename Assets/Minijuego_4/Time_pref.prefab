@@ -89,6 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorScale: 1.1
-  placedScale: 0.3
+  placedScale: 0.5
   pulseAmplitude: 0.05
   pulseSpeed: 4
