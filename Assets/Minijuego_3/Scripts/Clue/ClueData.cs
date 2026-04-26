@@ -11,6 +11,7 @@ public class ClueData
 
     [Header("Position")]
     public Vector2 position;
+    public Vector2 scale;
 
     [Header("State (runtime)")]
     public ClueState currentState = ClueState.None;
