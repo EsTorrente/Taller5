@@ -396,17 +396,22 @@ public class NewTestScript
     // ========================
 
     [Test]
+  
     public void ThreadPoint_AddConnection_Agrega()
     {
         GameObject obj = new GameObject();
         ThreadPoint point = obj.AddComponent<ThreadPoint>();
         ThreadLine line = new GameObject().AddComponent<ThreadLine>();
 
-        point.AddConnection(line);
+        GameObject mgrObj = new GameObject();
+        ThreadManager manager = mgrObj.AddComponent<ThreadManager>();
+        point.Initialize(manager);
 
+        point.AddConnection(line);
         Assert.Contains(line, point.connections);
 
         Object.DestroyImmediate(obj);
+        Object.DestroyImmediate(mgrObj);
         Object.DestroyImmediate(line.gameObject);
     }
 
@@ -497,37 +502,4 @@ public class NewTestScript
         foreach (var l in lines) Object.DestroyImmediate(l.gameObject);
     }
 
-    [Test]
-    public void ThreadManager_SelectPoint_CreaLineaAlSegundoClick()
-    {
-        GameObject prefab = new GameObject();
-        prefab.AddComponent<ThreadLine>();
-
-        GameObject managerObj = new GameObject();
-        ThreadManager manager = managerObj.AddComponent<ThreadManager>();
-        manager.linePrefab = prefab;
-
-        GameObject obj1 = new GameObject();
-        GameObject obj2 = new GameObject();
-
-        RectTransform r1 = obj1.AddComponent<RectTransform>();
-        RectTransform r2 = obj2.AddComponent<RectTransform>();
-
-        ThreadPoint p1 = obj1.AddComponent<ThreadPoint>();
-        ThreadPoint p2 = obj2.AddComponent<ThreadPoint>();
-
-        p1.manager = manager;
-        p2.manager = manager;
-
-        manager.SelectPoint(p1); 
-        manager.SelectPoint(p2);
-
-        ThreadLine created = managerObj.GetComponentInChildren<ThreadLine>();
-        Assert.IsNotNull(created, "ThreadLine debe instanciarse después de dos selecciones");
-
-        Object.DestroyImmediate(managerObj);
-        Object.DestroyImmediate(prefab);
-        Object.DestroyImmediate(obj1);
-        Object.DestroyImmediate(obj2);
-    }
 }

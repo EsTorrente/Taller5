@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ThreadPoint : MonoBehaviour, IPointerClickHandler
 {
-    public ThreadManager manager;
-    public Draggable draggable;
+    [SerializeField] private ThreadManager manager;
+    private Draggable draggable;
 
     public List<ThreadLine> connections = new List<ThreadLine>();
 
@@ -14,18 +14,23 @@ public class ThreadPoint : MonoBehaviour, IPointerClickHandler
     private Color originalColor;
 
     [Header("Highlight")]
-    public Color selectedColor = new Color(0.4f, 0.2f, 0.2f); 
-    public float pulseAmplitude = 0.05f;
-    public float pulseSpeed = 4f;
+    [SerializeField] private Color selectedColor = new Color(0.4f, 0.2f, 0.2f);
+    [SerializeField] private float pulseAmplitude = 0.05f;
+    [SerializeField] private float pulseSpeed = 4f;
 
     private bool isSelected = false;
     private Vector3 originalScale;
     private float offset;
 
+    public void Initialize(ThreadManager tm)
+    {
+        manager = tm;
+    }
+
     void Start()
     {
         if (manager == null)
-            manager = FindObjectOfType<ThreadManager>();
+            manager = Object.FindFirstObjectByType<ThreadManager>();
 
         draggable = GetComponent<Draggable>();
 
@@ -57,7 +62,7 @@ public class ThreadPoint : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && manager != null)
         {
             bool shouldHighlight = manager.SelectPoint(this);
 
@@ -96,7 +101,7 @@ public class ThreadPoint : MonoBehaviour, IPointerClickHandler
         foreach (var line in copy)
         {
             if (line != null)
-                Destroy(line.gameObject);
+                line.RemoveLine();
         }
 
         connections.Clear();

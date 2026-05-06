@@ -1,21 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class ContinueButtonValidator : MonoBehaviour
 {
-    [SerializeField] private Button button;
+    private Button button;
+    [SerializeField] private StickerManager stickerManager;
 
     void Awake()
     {
         button = GetComponent<Button>();
+        button.interactable = false; // estado inicial por defecto
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (StickerManager.Instance == null) return;
+        // lo suscribo al evento
+        if (stickerManager != null)
+            stickerManager.OnStickerStateChanged += UpdateButtonState;
+    }
 
-        bool canContinue = StickerManager.Instance.AreAllStickersPlaced();
+    void OnDisable()
+    {
+        // lo desuscribo para evitar fugas de memoria
+        if (stickerManager != null)
+            stickerManager.OnStickerStateChanged -= UpdateButtonState;
+    }
 
+    private void UpdateButtonState(bool canContinue)
+    {
         button.interactable = canContinue;
     }
 }

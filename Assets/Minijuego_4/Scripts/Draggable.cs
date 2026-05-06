@@ -1,21 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform rectTransform;
     private Canvas canvas;
 
     [Header("Escala")]
-    public float scaleMultiplier = 1.15f;
+    [SerializeField] private float scaleMultiplier = 1.15f;
     private Vector3 originalScale;
 
     [Header("Rotación tipo colgante")]
-    public float rotationAmplitude = 10f;
-    public float rotationSpeed = 5f;
+    [SerializeField] private float rotationAmplitude = 10f;
+    [SerializeField] private float rotationSpeed = 5f;
 
     private bool isDragging = false;
     private float timeOffset;
+
+    private StickerManager stickerManager;
+
+    public void Initialize(StickerManager manager)
+    {
+        stickerManager = manager;
+    }
 
     void Awake()
     {
@@ -44,6 +51,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        rectTransform.localScale = originalScale * scaleMultiplier;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -53,11 +61,4 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         rectTransform.rotation = Quaternion.identity;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (StickerManager.Instance != null)
-        {
-            StickerManager.Instance.PlaceSticker(transform);
-        }
-    }
 }

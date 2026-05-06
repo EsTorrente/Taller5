@@ -760,6 +760,7 @@ RectTransform:
   - {fileID: 1000528988}
   - {fileID: 2008500926}
   - {fileID: 607943183}
+  - {fileID: 1849421337}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -780,6 +781,7 @@ GameObject:
   - component: {fileID: 372556204}
   - component: {fileID: 372556203}
   - component: {fileID: 372556202}
+  - component: {fileID: 372556206}
   m_Layer: 5
   m_Name: Eri
   m_TagString: Photo
@@ -833,8 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe09330cac33ba439d61c4e11281176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  draggable: {fileID: 0}
+  manager: {fileID: 1521416884}
   connections: []
   selectedColor: {r: 1, g: 0.7122642, b: 0.7122642, a: 1}
   pulseAmplitude: 0.05
@@ -877,6 +878,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372556200}
   m_CullTransparentMesh: 1
+--- !u!114 &372556206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372556200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02f69560cff42f4292fdd0a9f465fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptsClock: 0
+  acceptsGuilt: 1
 --- !u!1 &494859536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,7 +1297,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1131529320}
-  - {fileID: 1849421337}
   m_Father: {fileID: 334476840}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1507,6 +1521,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postItPrefab: {fileID: 3202884136096806895, guid: 97e8b691ffbffe841966179bb57aa315, type: 3}
   boardArea: {fileID: 1912489176}
+  stickerManager: {fileID: 1849421336}
+  threadManager: {fileID: 1521416884}
 --- !u!1 &666338132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,6 +1846,7 @@ GameObject:
   - component: {fileID: 1111637278}
   - component: {fileID: 1111637277}
   - component: {fileID: 1111637276}
+  - component: {fileID: 1111637280}
   m_Layer: 5
   m_Name: Lyra
   m_TagString: Photo
@@ -1883,8 +1900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe09330cac33ba439d61c4e11281176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  draggable: {fileID: 0}
+  manager: {fileID: 1521416884}
   connections: []
   selectedColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   pulseAmplitude: 0.05
@@ -1927,6 +1943,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111637274}
   m_CullTransparentMesh: 1
+--- !u!114 &1111637280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111637274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02f69560cff42f4292fdd0a9f465fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptsClock: 0
+  acceptsGuilt: 1
 --- !u!1 &1131529319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,6 +2304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff6942d752cc5a4e932f9fd30f3f19f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stickerManager: {fileID: 1849421336}
 --- !u!114 &1372401658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2553,8 +2584,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1849421336}
         m_TargetAssemblyTypeName: StickerManager, GameScripts
-        m_MethodName: PickSticker
-        m_Mode: 5
+        m_MethodName: PickClockSticker
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2786,7 +2817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022fb5b2ef240774e88f119ba02c90b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
+  stickerManager: {fileID: 1849421336}
 --- !u!1 &1731457669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2822,8 +2853,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -778, y: -398}
-  m_SizeDelta: {x: 97.6904, y: 73.0652}
+  m_AnchoredPosition: {x: -709.9624, y: -432.79193}
+  m_SizeDelta: {x: 171.9132, y: 74.6115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1731457671
 MonoBehaviour:
@@ -2875,6 +2906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02f69560cff42f4292fdd0a9f465fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptsClock: 0
+  acceptsGuilt: 1
 --- !u!1 &1768435861
 GameObject:
   m_ObjectHideFlags: 0
@@ -3064,7 +3097,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 617483306}
+  m_Father: {fileID: 334476840}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1859484844
 GameObject:
@@ -3491,8 +3524,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1849421336}
         m_TargetAssemblyTypeName: StickerManager, GameScripts
-        m_MethodName: PickSticker
-        m_Mode: 5
+        m_MethodName: PickGuiltSticker
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3526,6 +3559,7 @@ GameObject:
   - component: {fileID: 1941313767}
   - component: {fileID: 1941313766}
   - component: {fileID: 1941313765}
+  - component: {fileID: 1941313769}
   m_Layer: 5
   m_Name: Hugo
   m_TagString: Photo
@@ -3564,7 +3598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f2158dcd4ff284aaac0489dc306d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleMultiplier: 1.15
+  scaleMultiplier: 1.5
   rotationAmplitude: 10
   rotationSpeed: 5
 --- !u!114 &1941313766
@@ -3579,8 +3613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe09330cac33ba439d61c4e11281176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  draggable: {fileID: 0}
+  manager: {fileID: 1521416884}
   connections: []
   selectedColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   pulseAmplitude: 0.05
@@ -3623,6 +3656,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941313763}
   m_CullTransparentMesh: 1
+--- !u!114 &1941313769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941313763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02f69560cff42f4292fdd0a9f465fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptsClock: 0
+  acceptsGuilt: 1
 --- !u!1 &1944428747
 GameObject:
   m_ObjectHideFlags: 0
@@ -3636,6 +3683,7 @@ GameObject:
   - component: {fileID: 1944428751}
   - component: {fileID: 1944428750}
   - component: {fileID: 1944428749}
+  - component: {fileID: 1944428753}
   m_Layer: 5
   m_Name: Julia
   m_TagString: Photo
@@ -3689,8 +3737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe09330cac33ba439d61c4e11281176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  draggable: {fileID: 0}
+  manager: {fileID: 1521416884}
   connections: []
   selectedColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   pulseAmplitude: 0.05
@@ -3733,6 +3780,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1944428747}
   m_CullTransparentMesh: 1
+--- !u!114 &1944428753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944428747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02f69560cff42f4292fdd0a9f465fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptsClock: 0
+  acceptsGuilt: 1
 --- !u!1 &1945526548
 GameObject:
   m_ObjectHideFlags: 0
@@ -4192,6 +4253,7 @@ GameObject:
   - component: {fileID: 2074335377}
   - component: {fileID: 2074335376}
   - component: {fileID: 2074335375}
+  - component: {fileID: 2074335379}
   m_Layer: 5
   m_Name: Golub
   m_TagString: Photo
@@ -4245,8 +4307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe09330cac33ba439d61c4e11281176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  draggable: {fileID: 0}
+  manager: {fileID: 1521416884}
   connections: []
   selectedColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   pulseAmplitude: 0.05
@@ -4289,6 +4350,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074335373}
   m_CullTransparentMesh: 1
+--- !u!114 &2074335379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074335373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02f69560cff42f4292fdd0a9f465fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptsClock: 0
+  acceptsGuilt: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

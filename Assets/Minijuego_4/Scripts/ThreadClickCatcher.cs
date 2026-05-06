@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 public class ThreadClickCatcher : MonoBehaviour
 {
+    [SerializeField] private StickerManager stickerManager;
+
+    void Start()
+    {
+        if (stickerManager == null)
+        {
+            stickerManager = Object.FindFirstObjectByType<StickerManager>();
+        }
+    }
+
     void Update()
     {
         if (!Input.GetMouseButtonDown(1)) return;
@@ -16,14 +26,12 @@ public class ThreadClickCatcher : MonoBehaviour
 
         foreach (var hit in results)
         {
-
             ThreadLine thread = hit.gameObject.GetComponent<ThreadLine>();
             if (thread != null)
             {
-                Destroy(thread.gameObject);
+                thread.RemoveLine();
                 return;
             }
-
 
             Transform t = hit.gameObject.transform;
 
@@ -36,11 +44,10 @@ public class ThreadClickCatcher : MonoBehaviour
                     if (point != null)
                         point.ClearConnections();
 
-                    if (StickerManager.Instance != null)
+                    if (stickerManager != null)
                     {
-                        StickerManager.Instance.RemoveStickersFromParent(t);
+                        stickerManager.RemoveStickersFromParent(t);
                     }
-
 
                     Destroy(t.gameObject);
                     return;

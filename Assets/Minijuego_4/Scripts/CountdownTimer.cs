@@ -6,7 +6,7 @@ public class CountdownTimer : MonoBehaviour
     [SerializeField] private SceneChanger manager;
 
     [Header("Tiempo")]
-    public float duration = 120f; // 2 minutes
+    public float duration = 120f; // 2 minutos
 
     [Header("UI (optional)")]
     public TextMeshProUGUI timerText;

@@ -4,15 +4,20 @@ using UnityEngine.UI;
 
 public class ThreadLine : MonoBehaviour, IPointerClickHandler
 {
-    public RectTransform pointA;
-    public RectTransform pointB;
-    public Image line;
+    [SerializeField] private Image line;
 
+    private RectTransform pointA;
+    private RectTransform pointB;
     private ThreadPoint pointARef;
     private ThreadPoint pointBRef;
+    private ThreadManager manager;
 
-    void Start()
+    public void Initialize(RectTransform a, RectTransform b, ThreadManager mgr)
     {
+        pointA = a;
+        pointB = b;
+        manager = mgr;
+
         pointARef = pointA.GetComponent<ThreadPoint>();
         pointBRef = pointB.GetComponent<ThreadPoint>();
 
@@ -24,31 +29,30 @@ public class ThreadLine : MonoBehaviour, IPointerClickHandler
     {
         if (pointA == null || pointB == null)
         {
-            Destroy(gameObject);
+            RemoveLine();
             return;
         }
 
         Vector3 dir = pointB.position - pointA.position;
-        float distance = dir.magnitude;
-
-        line.rectTransform.sizeDelta = new Vector2(distance, 5f);
+        line.rectTransform.sizeDelta = new Vector2(dir.magnitude, 5f);
         line.rectTransform.position = (pointA.position + pointB.position) / 2f;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         line.rectTransform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    void OnDestroy()
+    public void RemoveLine()
     {
         pointARef?.RemoveConnection(this);
         pointBRef?.RemoveConnection(this);
+        manager.ReturnLineToPool(this);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Destroy(gameObject);
+            RemoveLine();
         }
     }
 }

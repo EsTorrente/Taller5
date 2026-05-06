@@ -1,63 +1,66 @@
-using UnityEngine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StickerManager : MonoBehaviour
 {
-    public static StickerManager Instance;
+    // evento que avisa a otros scripts cuando cambia el estado de los stickers
+    public event Action<bool> OnStickerStateChanged;
 
     [Header("Sticker Prefabs")]
-    public GameObject clockStickerPrefab;
-    public GameObject guiltStickerPrefab;
+    [SerializeField] private GameObject clockStickerPrefab;
+    [SerializeField] private GameObject guiltStickerPrefab;
 
-    private Dictionary<string, GameObject> stickers = new Dictionary<string, GameObject>();
+    private Dictionary<StickerType, GameObject> stickers = new();
     private GameObject currentSticker;
-
     private RectTransform canvasRect;
 
     void Awake()
     {
-        Instance = this;
         canvasRect = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
     }
 
     void Update()
     {
+        // solo actualizo si hay un sticker siguiendo el mouse
         if (currentSticker != null && currentSticker.transform.parent == canvasRect)
         {
             RectTransform rt = currentSticker.GetComponent<RectTransform>();
-
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvasRect,
-                Input.mousePosition,
-                null,
-                out pos
-            );
-
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Input.mousePosition, null, out Vector2 pos);
             rt.anchoredPosition = pos;
         }
     }
 
-    public void PickSticker(string type)
+    public void PickSticker(StickerType type)
     {
-        GameObject prefab = null;
+        if (currentSticker != null)
+        {
+            StickerType currentType = GetStickerType(currentSticker);
 
-        if (type == "clock") prefab = clockStickerPrefab;
-        if (type == "guilt") prefab = guiltStickerPrefab;
+            if (currentType != type)
+            {
+                ReturnStickerToDrawer(currentType);
+            }
+        }
+
+        GameObject prefab = type switch
+        {
+            StickerType.Clock => clockStickerPrefab,
+            StickerType.Guilt => guiltStickerPrefab,
+            _ => null
+        };
 
         if (prefab == null) return;
 
         if (stickers.ContainsKey(type))
         {
-            GameObject sticker = stickers[type];
-
-            if (currentSticker == sticker)
+            if (currentSticker == stickers[type])
             {
                 ReturnStickerToDrawer(type);
                 return;
             }
-
-            currentSticker = sticker;
+            currentSticker = stickers[type];
         }
         else
         {
@@ -69,139 +72,122 @@ public class StickerManager : MonoBehaviour
         currentSticker.transform.SetParent(canvasRect);
         currentSticker.transform.SetAsLastSibling();
 
-        StickerVisual visual = currentSticker.GetComponent<StickerVisual>();
-        if (visual != null)
+        if (currentSticker.TryGetComponent(out StickerVisual visual))
             visual.SetFollowing(true);
+
+        CheckCompletion();
     }
 
     public void PlaceSticker(Transform parent)
     {
         if (currentSticker == null) return;
 
-        string type = GetStickerType(currentSticker);
+        StickerType type = GetStickerType(currentSticker);
 
-        if (!IsValidPlacement(type, parent))
+        // busco si el objetivo o sus padres implementan IStickerReceiver
+        IStickerReceiver receiver = parent.GetComponentInParent<IStickerReceiver>();
+
+        if (receiver == null || !receiver.CanAcceptSticker(type))
         {
             StartCoroutine(BlinkRed(currentSticker));
             return;
         }
 
         RectTransform rt = currentSticker.GetComponent<RectTransform>();
-        RectTransform parentRect = parent as RectTransform;
-
-        Vector2 localPos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentRect,
-            Input.mousePosition,
-            null,
-            out localPos
-        );
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(parent as RectTransform, Input.mousePosition, null, out Vector2 localPos);
 
         currentSticker.transform.SetParent(parent);
         rt.anchoredPosition = localPos;
 
-        StickerVisual visual = currentSticker.GetComponent<StickerVisual>();
-        if (visual != null)
+        if (currentSticker.TryGetComponent(out StickerVisual visual))
             visual.SetFollowing(false);
 
         currentSticker = null;
+        CheckCompletion(); // aviso a los observadores
     }
 
     public void RemoveStickersFromParent(Transform parent)
     {
-        List<string> toRemove = new List<string>();
+        List<StickerType> toRemove = new List<StickerType>();
 
         foreach (var kvp in stickers)
         {
-            GameObject sticker = kvp.Value;
-
-            if (sticker != null && sticker.transform.IsChildOf(parent))
+            if (kvp.Value != null && kvp.Value.transform.IsChildOf(parent))
             {
-                Destroy(sticker);
+                Destroy(kvp.Value);
                 toRemove.Add(kvp.Key);
             }
         }
 
-        foreach (var key in toRemove)
-        {
-            stickers.Remove(key);
-        }
+        foreach (var key in toRemove) stickers.Remove(key);
 
         currentSticker = null;
+        CheckCompletion();
     }
 
-    public bool AreAllStickersPlaced()
+    private void CheckCompletion()
     {
-        if (!stickers.ContainsKey("clock") || !stickers.ContainsKey("guilt"))
-            return false;
-
-        GameObject clock = stickers["clock"];
-        GameObject guilt = stickers["guilt"];
-
-        if (clock == null || guilt == null)
-            return false;
-
-        if (clock.transform.parent == canvasRect) return false;
-        if (guilt.transform.parent == canvasRect) return false;
-
-        return true;
+        // disparo el evento para que los botones sepan si activarse
+        bool isComplete = AreAllStickersPlaced();
+        OnStickerStateChanged?.Invoke(isComplete);
     }
 
-    string GetStickerType(GameObject sticker)
+    private bool AreAllStickersPlaced()
+    {
+        if (!stickers.ContainsKey(StickerType.Clock) ||
+            !stickers.ContainsKey(StickerType.Guilt))
+            return false;
+
+        GameObject clock = stickers[StickerType.Clock];
+        GameObject guilt = stickers[StickerType.Guilt];
+
+        if (clock == null || guilt == null) return false;
+        return clock.transform.parent != canvasRect && guilt.transform.parent != canvasRect;
+    }
+
+    private StickerType GetStickerType(GameObject sticker)
     {
         foreach (var kvp in stickers)
         {
-            if (kvp.Value == sticker)
-                return kvp.Key;
+            if (kvp.Value == sticker) return kvp.Key;
         }
 
-        return "";
+        throw new Exception("Sticker no encontrado");
     }
 
-    bool IsValidPlacement(string type, Transform target)
+    private IEnumerator BlinkRed(GameObject sticker)
     {
-        if (target == null) return false;
+        if (!sticker.TryGetComponent(out UnityEngine.UI.Image img)) yield break;
 
-        Transform t = target;
-
-        while (t != null)
-        {
-            if (type == "clock" && t.CompareTag("PostIt"))
-                return true;
-
-            if (type == "guilt" && (t.CompareTag("Photo") || t.CompareTag("GuiltZone")))
-                return true;
-
-            t = t.parent;
-        }
-
-        return false;
-    }
-
-    System.Collections.IEnumerator BlinkRed(GameObject sticker)
-    {
-        var img = sticker.GetComponent<UnityEngine.UI.Image>();
-        if (img == null) yield break;
-
-        Color original = img.color;
+        Color colorDeReposo = Color.white;
 
         img.color = Color.red;
         yield return new WaitForSeconds(0.15f);
 
-        img.color = original;
+        if (img != null)
+        {
+            img.color = colorDeReposo;
+        }
     }
 
-    void ReturnStickerToDrawer(string type)
+    private void ReturnStickerToDrawer(StickerType type)
     {
-        if (!stickers.ContainsKey(type)) return;
-
-        GameObject sticker = stickers[type];
-
-        if (sticker != null)
+        if (stickers.TryGetValue(type, out GameObject sticker))
+        {
             Destroy(sticker);
-
-        stickers.Remove(type);
-
+            stickers.Remove(type);
+        }
         currentSticker = null;
+        CheckCompletion();
+    }
+
+    public void PickClockSticker()
+    {
+        PickSticker(StickerType.Clock);
+    }
+
+    public void PickGuiltSticker()
+    {
+        PickSticker(StickerType.Guilt);
     }
 }
