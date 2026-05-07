@@ -5,21 +5,20 @@ using UnityEngine.SceneManagement;
 public class ComputerManager : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject loginPanel;
-    public GameObject desktopPanel;
+    [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject desktopPanel;
 
     [Header("Login UI")]
-    public TMP_InputField passwordInput;
-    public TextMeshProUGUI errorText;
+    [SerializeField] private TMP_InputField passwordInput;
+    [SerializeField] private TextMeshProUGUI errorText;
 
     [Header("Password")]
-    public string correctPassword;
+    [SerializeField] private string correctPassword;
 
     void Start()
     {
         loginPanel.SetActive(false);
         desktopPanel.SetActive(false);
-
         errorText.text = "";
     }
 
@@ -47,7 +46,6 @@ public class ComputerManager : MonoBehaviour
         loginPanel.SetActive(false);
         desktopPanel.SetActive(true);
     }
-
 
     public void NextScene()
     {

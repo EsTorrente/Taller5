@@ -1,50 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ClueUI : MonoBehaviour
 {
-    [Header("Data")]
-    public ClueData clueData;
-
-    [Header("UI References")]
-    public Image baseImage;
-    public Image markerImage;
+    [SerializeField] private Image markerImage;
 
     [Header("Marker Sprites")]
-    public Sprite relevantSprite;
-    public Sprite irrelevantSprite;
+    [SerializeField] private Sprite relevantSprite;
+    [SerializeField] private Sprite irrelevantSprite;
 
+    private ClueData clueData;
     private ClueState currentState = ClueState.None;
-    
     private PhotoManager photoManager;
 
-    void Start()
+    public void Init(ClueData newClue, PhotoManager manager)
     {
-        photoManager = FindObjectOfType<PhotoManager>();
-
+        clueData = newClue;
+        photoManager = manager;
         currentState = clueData.currentState;
 
         UpdateVisual();
     }
 
     public void OnClick()
-{
-    if (photoManager.IsCurrentPhotoSolved())
-        return;
+    {
+        if (photoManager.IsCurrentPhotoSolved())
+            return;
 
-    CycleState();
-    clueData.currentState = currentState;
-    UpdateVisual();
+        CycleState();
+        clueData.currentState = currentState;
+        UpdateVisual();
 
-    photoManager.CheckPhotoCompletion();
-}
+        photoManager.CheckPhotoCompletion();
+    }
 
     void CycleState()
-{
-    currentState = (ClueState)(((int)currentState + 1) % 3);
-}
+    {
+        currentState = (ClueState)(((int)currentState + 1) % 3);
+    }
 
     void UpdateVisual()
     {
@@ -53,16 +46,10 @@ public class ClueUI : MonoBehaviour
         if (currentState == ClueState.Relevant)
         {
             markerImage.sprite = relevantSprite;
-            baseImage.color = Color.white; 
         }
         else if (currentState == ClueState.Irrelevant)
         {
             markerImage.sprite = irrelevantSprite;
-            baseImage.color = Color.white; 
-        }
-        else
-        {
-            baseImage.color = Color.white;
         }
     }
 
@@ -74,15 +61,6 @@ public class ClueUI : MonoBehaviour
         return (currentState == ClueState.Relevant && clueData.isActuallyRelevant)
             || (currentState == ClueState.Irrelevant && !clueData.isActuallyRelevant);
     }
-
-    public void SetClue(ClueData newClue)
-{
-    clueData = newClue;
-
-    currentState = clueData.currentState;
-
-    UpdateVisual();
-}
 
     public ClueState GetState()
     {
