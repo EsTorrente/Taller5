@@ -15,8 +15,13 @@ public class DiarioManager : MonoBehaviour
     public TextMeshProUGUI texto2;
     public TextMeshProUGUI texto3;
 
+    [Header("Colores")]
+    public Color colorCorrecto = Color.green;
+    public Color colorMalPos = Color.yellow;
+    public Color colorIncorrecto = Color.red;
+
     public int[] digitos = { 0, 0, 0 };
-    public int[] codigoCorrecto = { 5, 8, 2 };
+    public int[] codigoCorrecto = { 5, 6, 2 };
 
     void Start()
     {
@@ -55,11 +60,33 @@ public class DiarioManager : MonoBehaviour
         texto1.text = digitos[0].ToString();
         texto2.text = digitos[1].ToString();
         texto3.text = digitos[2].ToString();
+
+        texto1.color = Color.white;
+        texto2.color = Color.white;
+        texto3.color = Color.white;
     }
 
     public void Comprobar()
     {
         Debug.Log("Digitos ingresados: " + digitos[0] + " " + digitos[1] + " " + digitos[2]);
+
+        TextMeshProUGUI[] textos = { texto1, texto2, texto3 };
+
+        for (int i = 0; i < digitos.Length; i++)
+        {
+            if (digitos[i] == codigoCorrecto[i])
+            {
+                textos[i].color = colorCorrecto; // Verde
+            }
+            else if (System.Array.Exists(codigoCorrecto, x => x == digitos[i]))
+            {
+                textos[i].color = colorMalPos; // Amarillo
+            }
+            else
+            {
+                textos[i].color = colorIncorrecto; // Rojo
+            }
+        }
 
         if (digitos[0] == codigoCorrecto[0] &&
             digitos[1] == codigoCorrecto[1] &&

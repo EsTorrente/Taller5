@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.Video;
-using TMPro; 
+using UnityEngine.UI;
 
 public class VideoUIController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    public TMP_Text botonTexto; 
+    public Image botonImagen;
+
+    public Sprite iconoPlay;
+    public Sprite iconoPause;
 
     void Start()
     {
-        botonTexto.text = "Pausar";
+        botonImagen.sprite = iconoPause;
     }
 
     public void TogglePlayPause()
@@ -30,11 +33,11 @@ public class VideoUIController : MonoBehaviour
     {
         if (videoPlayer.isPlaying)
         {
-            botonTexto.text = "Pausar";
+            botonImagen.sprite = iconoPause;
         }
         else
         {
-            botonTexto.text = "Reproducir";
+            botonImagen.sprite = iconoPlay;
         }
     }
 }

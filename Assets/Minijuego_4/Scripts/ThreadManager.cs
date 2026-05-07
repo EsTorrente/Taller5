@@ -1,30 +1,54 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ThreadManager : MonoBehaviour
 {
-    public GameObject linePrefab;
+    [SerializeField] private GameObject linePrefab;
+    private ThreadPoint firstPoint;
 
-    private RectTransform first;
+    // pool
+    private Queue<ThreadLine> linePool = new Queue<ThreadLine>();
 
-    public void SelectPoint(RectTransform point)
+    public bool SelectPoint(ThreadPoint point)
     {
-        if (first == null)
+        if (firstPoint == null)
         {
-            first = point;
+            firstPoint = point;
+            return true;
         }
         else
         {
-            CreateLine(first, point);
-            first = null;
+            CreateLine(firstPoint, point);
+            firstPoint.SetSelected(false);
+            point.SetSelected(false);
+            firstPoint = null;
+            return false;
         }
     }
 
-    void CreateLine(RectTransform a, RectTransform b)
+    private void CreateLine(ThreadPoint a, ThreadPoint b)
     {
-        GameObject obj = Instantiate(linePrefab, transform);
+        ThreadLine line = GetLineFromPool();
 
-        ThreadLine line = obj.GetComponent<ThreadLine>();
-        line.pointA = a;
-        line.pointB = b;
+        line.Initialize(a.GetComponent<RectTransform>(), b.GetComponent<RectTransform>(), this);
+    }
+
+    private ThreadLine GetLineFromPool()
+    {
+        if (linePool.Count > 0)
+        {
+            ThreadLine line = linePool.Dequeue();
+            line.gameObject.SetActive(true);
+            return line;
+        }
+
+        GameObject obj = Instantiate(linePrefab, transform);
+        return obj.GetComponent<ThreadLine>();
+    }
+
+    public void ReturnLineToPool(ThreadLine line)
+    {
+        line.gameObject.SetActive(false);
+        linePool.Enqueue(line);
     }
 }

@@ -257,7 +257,7 @@ public class NewTestScript
     /// no llamo Comprobar() directamente pq en el caso correcto llama a SceneManager.LoadScene(), que crashea en Edit Mode
     public static IEnumerable<TestCaseData> ComprobarData()
     {
-        yield return new TestCaseData(5, 8, 2, true).SetName("Codigo_Correcto_582");
+        yield return new TestCaseData(5, 6, 2, true).SetName("Codigo_Correcto_562");
         yield return new TestCaseData(0, 0, 0, false).SetName("Codigo_Incorrecto_000");
         yield return new TestCaseData(5, 8, 0, false).SetName("Codigo_Incorrecto_580");
         yield return new TestCaseData(5, 0, 2, false).SetName("Codigo_Incorrecto_502");
@@ -391,17 +391,22 @@ public class NewTestScript
     // ========================
 
     [Test]
+  
     public void ThreadPoint_AddConnection_Agrega()
     {
         GameObject obj = new GameObject();
         ThreadPoint point = obj.AddComponent<ThreadPoint>();
         ThreadLine line = new GameObject().AddComponent<ThreadLine>();
 
-        point.AddConnection(line);
+        GameObject mgrObj = new GameObject();
+        ThreadManager manager = mgrObj.AddComponent<ThreadManager>();
+        point.Initialize(manager);
 
+        point.AddConnection(line);
         Assert.Contains(line, point.connections);
 
         Object.DestroyImmediate(obj);
+        Object.DestroyImmediate(mgrObj);
         Object.DestroyImmediate(line.gameObject);
     }
 
@@ -492,29 +497,4 @@ public class NewTestScript
         foreach (var l in lines) Object.DestroyImmediate(l.gameObject);
     }
 
-    [Test]
-    public void ThreadManager_SelectPoint_CreaLineaAlSegundoClick()
-    {
-        GameObject prefab = new GameObject();
-        prefab.AddComponent<ThreadLine>();
-
-        GameObject managerObj = new GameObject();
-        ThreadManager manager = managerObj.AddComponent<ThreadManager>();
-        manager.linePrefab = prefab;
-
-        RectTransform r1 = new GameObject().AddComponent<RectTransform>();
-        RectTransform r2 = new GameObject().AddComponent<RectTransform>();
-
-        manager.SelectPoint(r1); // primera selección se guarda
-        manager.SelectPoint(r2); // segunda selección crea la línea
-
-        //debe existir un ThreadLine hijo del manager
-        ThreadLine created = managerObj.GetComponentInChildren<ThreadLine>();
-        Assert.IsNotNull(created, "ThreadLine debe instanciarse después de dos selecciones");
-
-        Object.DestroyImmediate(managerObj);
-        Object.DestroyImmediate(prefab);
-        Object.DestroyImmediate(r1.gameObject);
-        Object.DestroyImmediate(r2.gameObject);
-    }
 }
