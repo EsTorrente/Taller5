@@ -40,4 +40,23 @@ public class VideoUIController : MonoBehaviour
             botonImagen.sprite = iconoPlay;
         }
     }
+     public void Adelantar()
+    {
+        videoPlayer.time += 10;
+
+        if (videoPlayer.time > videoPlayer.length)
+        {
+            videoPlayer.time = videoPlayer.length;
+        }
+    }
+
+    public void Retroceder()
+    {
+        videoPlayer.time -= 10;
+
+        if (videoPlayer.time < 0)
+        {
+            videoPlayer.time = 0;
+        }
+    }
 }
