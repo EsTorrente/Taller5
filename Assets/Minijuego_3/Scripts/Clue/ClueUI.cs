@@ -14,33 +14,33 @@ public class ClueUI : MonoBehaviour
     private ClueState currentState = ClueState.None;
     private PhotoManager photoManager;
 
-    public void Init(ClueData newClue, PhotoManager manager)
+    public void Init(ClueData newClue, PhotoManager manager) // metodo para meterle los datos apenas se crea
     {
         clueData = newClue;
         photoManager = manager;
         currentState = clueData.currentState;
 
-        UpdateVisual();
+        UpdateVisual(); // actualiza el dibujito
     }
 
     public void OnClick()
     {
-        if (photoManager.IsCurrentPhotoSolved())
-            return;
+        if (photoManager.IsCurrentPhotoSolved()) // pregunta si la foto ya se resolvio
+            return; //si si pues no hace nada
 
-        CycleState();
+        CycleState(); // cambia el estado al siguiente
         clueData.currentState = currentState;
         UpdateVisual();
 
-        photoManager.CheckPhotoCompletion();
+        photoManager.CheckPhotoCompletion(); // checkea a ver si esta completada
     }
 
     void CycleState()
     {
-        currentState = (ClueState)(((int)currentState + 1) % 3);
+        currentState = (ClueState)(((int)currentState + 1) % 3); // le suma 1 al estado y vuelve a cero si pasa de 2, gracias modulo
     }
 
-    void UpdateVisual()
+    void UpdateVisual() //actualiza las visuales
     {
         markerImage.enabled = true;
 
@@ -52,13 +52,13 @@ public class ClueUI : MonoBehaviour
         {
             markerImage.sprite = relevantSprite;
         }
-        else if (currentState == ClueState.Irrelevant)
+        else if (currentState == ClueState.Irrelevant) 
         {
             markerImage.sprite = irrelevantSprite;
         }
     }
 
-    public bool IsCorrect()
+    public bool IsCorrect() //mira a ver si esta correcta
     {
         if (currentState == ClueState.None)
             return false;
@@ -67,7 +67,7 @@ public class ClueUI : MonoBehaviour
             || (currentState == ClueState.Irrelevant && !clueData.isActuallyRelevant);
     }
 
-    public ClueState GetState()
+    public ClueState GetState() //pa q los otros scripts miren a ver si esta bien
     {
         return currentState;
     }

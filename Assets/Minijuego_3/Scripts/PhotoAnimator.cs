@@ -11,7 +11,6 @@ public class PhotoAnimator : MonoBehaviour
     [SerializeField] private float animationDuration = 0.5f; 
     [SerializeField] private float slideOffset = 1000f; 
 
-    // Saber si se está animando para bloquear otras acciones
     public bool IsAnimating { get; private set; } 
 
     public void PlayInitialAnimation()

@@ -10,7 +10,7 @@ public class ComputerManager : MonoBehaviour
 
     [Header("Login UI")]
     [SerializeField] private TMP_InputField passwordInput;
-    [SerializeField] private TextMeshProUGUI errorText;
+    [SerializeField] private TextMeshProUGUI errorText; 
 
     [Header("Password")]
     [SerializeField] private string correctPassword;
@@ -22,18 +22,18 @@ public class ComputerManager : MonoBehaviour
         errorText.text = "";
     }
 
-    public void OnPasswordChanged()
+    public void OnPasswordChanged() // se ejecuta cada vez que el jugador pone algo en el input field
     {
-        errorText.text = "";
+        errorText.text = ""; // borra el error para limpiar la pantalla
     }
 
-    public void TryLogin()
+    public void TryLogin() // se ejecuta al darle clic al boton de entrar o enter (creo la verdad no me acuerdo si enter si funciona así con el input fiel)
     {
-        string input = passwordInput.text;
+        string input = passwordInput.text; 
 
-        if (input == correctPassword)
+        if (input == correctPassword) //compara con la clave correcta
         {
-            UnlockComputer();
+            UnlockComputer(); //si es igual, abre el pc
         }
         else
         {
@@ -43,12 +43,12 @@ public class ComputerManager : MonoBehaviour
 
     void UnlockComputer()
     {
-        loginPanel.SetActive(false);
-        desktopPanel.SetActive(true);
+        loginPanel.SetActive(false); // apaga el login
+        desktopPanel.SetActive(true); // prende el escritorio
     }
 
-    public void NextScene()
+    public void NextScene() //lo q llama el botoncito pa cambiar de escena
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // carga la escena que sigue en la lista
     }
 }
