@@ -539,7 +539,17 @@ public class NewTestScript
     // ========================
 
     [Test]
-  
+
+    /// Verifica que AddConnection()
+    /// agregue correctamente una línea
+    /// a la lista de conexiones del punto.
+    ///
+    /// El test:
+    /// 1. Crea un ThreadPoint.
+    /// 2. Crea una línea.
+    /// 3. Agrega la conexión.
+    /// 4. Comprueba que exista en la lista.
+
     public void ThreadPoint_AddConnection_Agrega()
     {
         GameObject obj = new GameObject();
@@ -559,6 +569,13 @@ public class NewTestScript
     }
 
     [Test]
+
+    /// Verifica que AddConnection()
+    /// no agregue líneas duplicadas.
+    ///
+    /// Se intenta añadir la misma línea dos veces
+    /// y luego se comprueba que la lista
+    /// solo tenga un elemento.
     public void ThreadPoint_AddConnection_SinDuplicados()
     {
         GameObject obj = new GameObject();
@@ -575,6 +592,14 @@ public class NewTestScript
     }
 
     [Test]
+
+    /// Verifica que RemoveConnection()
+    /// elimine correctamente una conexión.
+    ///
+    /// El test:
+    /// 1. Agrega una línea.
+    /// 2. La elimina.
+    /// 3. Comprueba que ya no esté en la lista.
     public void ThreadPoint_RemoveConnection_Elimina()
     {
         GameObject obj = new GameObject();
@@ -591,6 +616,13 @@ public class NewTestScript
     }
 
     [Test]
+
+    /// Verifica que limpiar la lista de conexiones
+    /// deje el ThreadPoint sin líneas asociadas.
+    ///
+    /// Primero se agregan varias conexiones,
+    /// luego se ejecuta Clear()
+    /// y finalmente se valida que Count sea 0.
     public void ThreadPoint_ClearConnections_VaciaLaLista()
     {
         GameObject obj = new GameObject();
@@ -614,6 +646,11 @@ public class NewTestScript
         foreach (var lo in lineObjects) Object.DestroyImmediate(lo);
     }
 
+    /// Casos parametrizados para probar
+    /// agregar y eliminar múltiples líneas.
+    ///
+    /// Se prueban diferentes cantidades
+    /// para asegurar que la lógica escale bien.
     public static IEnumerable<TestCaseData> ThreadCountData()
     {
         yield return new TestCaseData(1).SetName("Thread_AgregarYEliminar_1linea");
@@ -622,6 +659,17 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(ThreadCountData))]
+
+    /// Verifica que:
+    /// 1. Todas las líneas se agreguen correctamente.
+    /// 2. Todas las líneas puedan eliminarse.
+    ///
+    /// El test:
+    /// - crea varias líneas
+    /// - las agrega
+    /// - comprueba la cantidad
+    /// - luego las elimina
+    /// - verifica que la lista quede vacía
     public void ThreadPoint_AddRemove_Parametrizado(int lineCount)
     {
         GameObject obj = new GameObject();
