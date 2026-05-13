@@ -8,6 +8,7 @@ public class ClueUI : MonoBehaviour
     [Header("Marker Sprites")]
     [SerializeField] private Sprite relevantSprite;
     [SerializeField] private Sprite irrelevantSprite;
+    [SerializeField] private Sprite noneSprite;
 
     private ClueData clueData;
     private ClueState currentState = ClueState.None;
@@ -41,9 +42,13 @@ public class ClueUI : MonoBehaviour
 
     void UpdateVisual()
     {
-        markerImage.enabled = currentState != ClueState.None;
+        markerImage.enabled = true;
 
-        if (currentState == ClueState.Relevant)
+        if (currentState == ClueState.None)
+        {
+            markerImage.sprite = noneSprite;
+        }
+        else if (currentState == ClueState.Relevant)
         {
             markerImage.sprite = relevantSprite;
         }

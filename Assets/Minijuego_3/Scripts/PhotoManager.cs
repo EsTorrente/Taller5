@@ -8,14 +8,12 @@ public class PhotoManager : MonoBehaviour
     [Header("Controladores Inyectados")]
     [SerializeField] private PhotoInteraction interactionController;
     [SerializeField] private PhotoAnimator animatorController;
-    [SerializeField] private ClueFactory clueFactory; // <-- AÑADIDO: Referencia a la fábrica
+    [SerializeField] private ClueFactory clueFactory;
 
     [Header("Datos y Referencias de UI")]
     [SerializeField] private List<PhotoData> photos;
     [SerializeField] private Image photoDisplay;
     
-    // <-- ELIMINADO: [SerializeField] private List<ClueUI> clueSlots;
-    // <-- AÑADIDO: Lista interna para rastrear las pistas creadas por la fábrica
     private List<ClueUI> activeClues = new List<ClueUI>(); 
 
     private bool currentPhotoSolved = false;
@@ -53,19 +51,15 @@ public class PhotoManager : MonoBehaviour
 
     void UpdatePhoto()
     {
-        // 1. LIMPIEZA: Eliminamos las pistas instanciadas de la foto anterior
         foreach (var clue in activeClues)
         {
             if (clue != null) Destroy(clue.gameObject);
         }
         activeClues.Clear();
-
-        // 2. ACTUALIZACIÓN DE FOTO:
         PhotoData currentPhoto = photos[index];
         photoDisplay.sprite = currentPhoto.photoSprite;
         currentPhotoSolved = solvedPhotos.Contains(index);
 
-        // 3. FABRICACIÓN: Creamos dinámicamente las pistas que necesita esta foto en particular
         foreach (ClueData clueData in currentPhoto.clues)
         {
             ClueUI newClue = clueFactory.CreateClue(clueData, this);
@@ -82,7 +76,6 @@ public class PhotoManager : MonoBehaviour
     {
         if (currentPhotoSolved) return;
 
-        // Comprobamos la lista dinámica en lugar de los slots fijos
         foreach (var clue in activeClues)
         {
             if (!clue.IsCorrect())

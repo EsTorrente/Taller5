@@ -252,6 +252,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134873976449384319, guid: eae628e57a61414429a07c91c4366bf5, type: 3}
+      propertyPath: notificationIcon
+      value: 
+      objectReference: {fileID: 2124358256}
     - target: {fileID: 494770555239486968, guid: eae628e57a61414429a07c91c4366bf5, type: 3}
       propertyPath: m_Name
       value: Notebook
@@ -2513,6 +2517,7 @@ RectTransform:
   - {fileID: 807827867}
   - {fileID: 1791293276}
   - {fileID: 1145385769}
+  - {fileID: 2124358257}
   - {fileID: 975828404}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3346,7 +3351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad958f0b3759264193d9bb4d51f3242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  computer: {fileID: 32569383}
 --- !u!1 &1902100061
 GameObject:
   m_ObjectHideFlags: 0
@@ -3858,17 +3862,16 @@ MonoBehaviour:
   animatorController: {fileID: 2004698796}
   clueFactory: {fileID: 1177994356}
   photos:
-  - photoSprite: {fileID: -5904826374619391211, guid: bd044783c3cef534c9e2c1418766a51e, type: 3}
+  - photoSprite: {fileID: 2529745423472661054, guid: ade0593fad640154794768f5ac7618e2, type: 3}
     clues:
-    - description: "El cumplea\xF1os de Eri est\xE1 marcado en el calendario como
-        el 7mo d\xEDa \xBFPero qu\xE9 mes?"
-      isActuallyRelevant: 1
+    - description: "Menciona que el pastel est\xE1 listo 2 d\xEDas antes"
+      isActuallyRelevant: 0
       position: {x: 83, y: 151}
       scale: {x: 1, y: 1}
       currentState: 0
-    - description: "El cumplea\xF1os se celebr\xF3 un jueves"
-      isActuallyRelevant: 0
-      position: {x: 236, y: -198}
+    - description: "El cumplea\xF1os est\xE1 marcado en el 7mo d\xEDa"
+      isActuallyRelevant: 1
+      position: {x: 163.2, y: -198}
       scale: {x: 1, y: 1}
       currentState: 0
     finalClue: "Eri naci\xF3 el 7mo d\xEDa del mes... (07/xx/xx)"
@@ -3897,7 +3900,7 @@ MonoBehaviour:
       position: {x: -205, y: -205}
       scale: {x: 4.3, y: 1}
       currentState: 0
-    finalClue: "El a\xF1o en que se tom\xF3 la foto es 2026. (xx/xx/??)"
+    finalClue: "La foto se tom\xF3 en 2026, \xBFQue velas faltan? (xx/xx/??)"
   photoDisplay: {fileID: 735593462}
 --- !u!82 &2004698795
 AudioSource:
@@ -4280,6 +4283,98 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2124358256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2124358257}
+  - component: {fileID: 2124358259}
+  - component: {fileID: 2124358258}
+  - component: {fileID: 2124358260}
+  m_Layer: 5
+  m_Name: NotificationIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2124358257
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124358256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1524204026}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 647, y: -410}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2124358258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124358256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 3616512531535755360, guid: 8893f37cfee4571469545d61053a36c8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2124358259
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124358256}
+  m_CullTransparentMesh: 1
+--- !u!114 &2124358260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124358256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63dbec4e0b29bee4cabbc82d1a750be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 10
+  frequency: 5
+  rotationSpeed: {x: 0, y: 0, z: 0}
+  randomOffset: 1
 --- !u!1 &2125145804
 GameObject:
   m_ObjectHideFlags: 0
