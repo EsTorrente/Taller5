@@ -425,6 +425,13 @@ public class NewTestScript
     // MINIJUEGO 3
     // ========================
 
+    /// Se prueban:
+    /// - pistas relevantes correctamente marcadas
+    /// - pistas irrelevantes correctamente marcadas
+    /// - estados incorrectos
+    /// - pistas sin marcar
+    ///
+    /// Así se valida toda la lógica de evaluación.
     public static IEnumerable<TestCaseData> ClueIsCorrectData()
     {
         //isActuallyRelevant, stateToSet, expectedResult
@@ -441,6 +448,17 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(ClueIsCorrectData))]
+
+    /// Comprueba si IsCorrect() devuelve
+    /// el resultado esperado según:
+    /// - el tipo real de pista
+    /// - el estado asignado por el jugador.
+    ///
+    /// El test:
+    /// 1. Crea una pista.
+    /// 2. Configura relevancia y estado.
+    /// 3. Llama SetClue().
+    /// 4. Verifica el resultado.
     public void ClueUI_IsCorrect_Parametrizado(
         bool isActuallyRelevant, ClueState stateToSet, bool expectedResult)
     {
@@ -459,6 +477,14 @@ public class NewTestScript
     }
 
     [Test]
+
+    /// Verifica que CycleState() rote correctamente
+    /// entre los estados:
+    ///
+    /// None -> Relevant -> Irrelevant -> None
+    ///
+    /// Esto asegura que el sistema de selección
+    /// del jugador funcione correctamente.
     public void Clue_CycleState_WrapsCorrectly()
     {
         Clue clue = new RelevantClue("test");
@@ -473,6 +499,12 @@ public class NewTestScript
     }
 
     [Test]
+
+    /// Comprueba que una pista relevante
+    /// solo sea considerada correcta
+    /// cuando está marcada como Relevant.
+    ///
+    /// Los demás estados deben dar false.
     public void RelevantClue_IsCorrect_SoloEnRelevant()
     {
         Clue clue = new RelevantClue("test");
@@ -485,6 +517,12 @@ public class NewTestScript
     }
 
     [Test]
+
+    /// Comprueba que una pista relevante
+    /// solo sea considerada correcta
+    /// cuando está marcada como Relevant.
+    ///
+    /// Los demás estados deben dar false.
     public void IrrelevantClue_IsCorrect_SoloEnIrrelevant()
     {
         Clue clue = new IrrelevantClue("test");
