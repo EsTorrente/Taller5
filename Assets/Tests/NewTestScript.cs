@@ -26,7 +26,13 @@ public class NewTestScript
     // ========================
     // MINIJUEGO 1
     // ========================
-
+    /// Conjunto de casos de prueba para GridToWorldCentered().
+    /// Cada caso define:
+    /// - posición en la grilla (col,row)
+    /// - tamaño del bloque en slots
+    /// - tamaño de cada slot
+    /// - posición esperada en el mundo.
+    /// Esto permite probar varios escenarios automáticamente.
     public static IEnumerable<TestCaseData> GridToWorldData()
     {
         // col, row, wSlots, hSlots, slotSize, expectedX, expectedY
@@ -57,6 +63,10 @@ public class NewTestScript
         Object.DestroyImmediate(boardObj);
     }
 
+    /// Casos de prueba para tamaños de bloques.
+    /// Se valida que las escalas del objeto correspondan
+    /// correctamente a widthInSlots y heightI
+
     public static IEnumerable<TestCaseData> BlockSizeData()
     {
         // scaleX, scaleY, expectedWidth, expectedHeight
@@ -67,7 +77,17 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(BlockSizeData))]
-    
+
+    /// Crea un tablero (cajon) listo para pruebas.
+    ///
+    /// Configura:
+    /// - columnas
+    /// - filas
+    /// - tamaño de slot
+    /// - boardOrigin
+    ///
+    /// Luego ejecuta Awake() manualmente porque en EditMode
+    /// Unity no siempre llama automáticamente los ciclos de vida.
     private cajon MakeCajon(int columns = 4, int rows = 4, float slotSize = 2f)
     {
         GameObject boardObj = new GameObject();
@@ -79,6 +99,16 @@ public class NewTestScript
         board.Awake(); 
         return board;
     }
+
+    /// Crea un bloque de prueba.
+    ///
+    /// Ajusta:
+    /// - posición en la grilla
+    /// - tamaño en slots
+    /// - escala visual
+    /// - si es bloque ganador o no
+    ///
+    /// Esto evita repetir código en cada test.
 
     private objetosCocina MakeBlock(int col, int row, int w, int h, bool isWin = false)
     {
@@ -93,6 +123,14 @@ public class NewTestScript
         return block;
     }
 
+    /// Casos de prueba para CanMoveTo().
+    ///
+    /// Simulan movimientos hacia:
+    /// - espacios libres
+    /// - espacios ocupados
+    /// - esquinas
+    ///
+    /// Sirven para validar colisiones.
     public static IEnumerable<TestCaseData> CanMoveToData()
     {
         // newCol, newRow, ocuparSlot, expectedCanMove
@@ -104,6 +142,20 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(CanMoveToData))]
+
+    /// Comprueba si CanMoveTo() detecta correctamente
+    /// cuándo un bloque puede o no moverse.
+    ///
+    /// El test:
+    /// 1. Crea un tablero.
+    /// 2. Crea un bloque que se moverá.
+    /// 3. Opcionalmente agrega un obstáculo.
+    /// 4. Intenta mover el bloque.
+    /// 5. Verifica si el resultado coincide con lo esperado.
+    ///
+    /// Si existe obstáculo en el destino,
+    /// el método debe devolver false.
+
     public void Cajon_CanMoveTo_DetectaColisiones(int newCol, int newRow, bool hayObstaculo)
     {
         cajon board = MakeCajon();
