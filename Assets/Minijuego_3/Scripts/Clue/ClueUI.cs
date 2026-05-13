@@ -1,72 +1,64 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ClueUI : MonoBehaviour
 {
-    [Header("Data")]
-    public ClueData clueData;
-
-    [Header("UI References")]
-    public Image baseImage;
-    public Image markerImage;
+    [SerializeField] private Image markerImage;
 
     [Header("Marker Sprites")]
-    public Sprite relevantSprite;
-    public Sprite irrelevantSprite;
+    [SerializeField] private Sprite relevantSprite;
+    [SerializeField] private Sprite irrelevantSprite;
+    [SerializeField] private Sprite noneSprite;
 
+    private ClueData clueData;
     private ClueState currentState = ClueState.None;
-    
     private PhotoManager photoManager;
 
-    void Start()
+    public void Init(ClueData newClue, PhotoManager manager) // metodo para meterle los datos apenas se crea
     {
-        photoManager = FindObjectOfType<PhotoManager>();
-
+        clueData = newClue;
+        photoManager = manager;
         currentState = clueData.currentState;
 
-        UpdateVisual();
+        UpdateVisual(); // actualiza el dibujito
     }
 
     public void OnClick()
-{
-    if (photoManager.IsCurrentPhotoSolved())
-        return;
+    {
+        if (photoManager.IsCurrentPhotoSolved()) // pregunta si la foto ya se resolvio
+            return; //si si pues no hace nada
 
-    CycleState();
-    clueData.currentState = currentState;
-    UpdateVisual();
+        CycleState(); // cambia el estado al siguiente
+        clueData.currentState = currentState;
+        UpdateVisual();
 
-    photoManager.CheckPhotoCompletion();
-}
+        photoManager.CheckPhotoCompletion(); // checkea a ver si esta completada
+    }
 
     void CycleState()
-{
-    currentState = (ClueState)(((int)currentState + 1) % 3);
-}
-
-    void UpdateVisual()
     {
-        markerImage.enabled = currentState != ClueState.None;
+        currentState = (ClueState)(((int)currentState + 1) % 3); // le suma 1 al estado y vuelve a cero si pasa de 2, gracias modulo
+    }
 
-        if (currentState == ClueState.Relevant)
+    void UpdateVisual() //actualiza las visuales
+    {
+        markerImage.enabled = true;
+
+        if (currentState == ClueState.None)
+        {
+            markerImage.sprite = noneSprite;
+        }
+        else if (currentState == ClueState.Relevant)
         {
             markerImage.sprite = relevantSprite;
-            baseImage.color = Color.white; 
         }
-        else if (currentState == ClueState.Irrelevant)
+        else if (currentState == ClueState.Irrelevant) 
         {
             markerImage.sprite = irrelevantSprite;
-            baseImage.color = Color.white; 
-        }
-        else
-        {
-            baseImage.color = Color.white;
         }
     }
 
-    public bool IsCorrect()
+    public bool IsCorrect() //mira a ver si esta correcta
     {
         if (currentState == ClueState.None)
             return false;
@@ -75,16 +67,7 @@ public class ClueUI : MonoBehaviour
             || (currentState == ClueState.Irrelevant && !clueData.isActuallyRelevant);
     }
 
-    public void SetClue(ClueData newClue)
-{
-    clueData = newClue;
-
-    currentState = clueData.currentState;
-
-    UpdateVisual();
-}
-
-    public ClueState GetState()
+    public ClueState GetState() //pa q los otros scripts miren a ver si esta bien
     {
         return currentState;
     }

@@ -9,7 +9,7 @@ public class notebookUI : MonoBehaviour
     public TMP_InputField inputField;
     public Animator animator;
 
-    [Header("Botón")]
+    [Header("BotÃ³n")]
     public Image buttonImage;
     public Sprite arrowUp;
     public Sprite arrowDown;
@@ -21,10 +21,24 @@ public class notebookUI : MonoBehaviour
 
     private bool isOpen = false;
 
+    [Header("Notificacion")]
+    public GameObject notificationIcon;
+
+    private void OnEnable()
+    {
+        PhotoManager.OnPhotoSolved += AddClue;
+    }
+
+    private void OnDisable()
+    {
+        PhotoManager.OnPhotoSolved -= AddClue;
+    }
+
     void Start()
     {
         //cargar texto guardado
         inputField.text = PlayerPrefs.GetString("NotebookText", "");
+        if(notificationIcon != null) notificationIcon.SetActive(false);
     }
 
     void Update()
@@ -43,7 +57,11 @@ public class notebookUI : MonoBehaviour
         animator.SetBool("isOpen", isOpen);
 
         notebookPanel.SetActive(isOpen);
-        StartCoroutine(FocusInputField());
+        if (isOpen) 
+        {
+            StartCoroutine(FocusInputField());
+            if(notificationIcon != null) notificationIcon.SetActive(false);
+        }
 
         UpdateButtonSprite();
     }
@@ -80,8 +98,13 @@ public class notebookUI : MonoBehaviour
         if (inputField.text.Contains(clue))
             return;
 
-        inputField.text += "\n• " + clue;
+        inputField.text += "\n - " + clue;
 
         SaveText();
+
+        if (!isOpen && notificationIcon != null) 
+        {
+            notificationIcon.SetActive(true);
+        }
     }
 }
