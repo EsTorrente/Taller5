@@ -12,8 +12,5 @@ public class objetosCocina : MonoBehaviour
     public int heightInSlots; // alto en slots
     public bool isWinBlock;   // es la llave
 
-    [HideInInspector] public bool isSelected = false;
-
-    
 }
 
