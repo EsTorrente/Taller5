@@ -12,6 +12,9 @@ ___
 
 # 🎂 CRÉDITOS
 
+> Todos los assets utilizados durante la creación de los cortos animados y los minijuegos fueron obtenidos de la plataforma BlenderKit. BlenderKit solo ofrece dos licencias. Todo lo que se descarga de la plataforma está disponible para uso comercial. Ambas permiten vender obras derivadas de mayor nivel. Por ende, todos estos assets caen bajo Royalty Free o CC0 - No Rights Reserved.  
+>   **Fuente:** https://www.blenderkit.com/docs/licenses/
+
 ## ASSETS USADOS EN LA ANIMACIÓN
 
 ### 🍰 Props habitación hermanos:
