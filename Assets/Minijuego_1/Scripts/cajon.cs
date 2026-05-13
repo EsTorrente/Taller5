@@ -35,14 +35,14 @@ public class cajon : MonoBehaviour
     {
         if (winPanel != null) winPanel.SetActive(false);
         RegisterAllBlocks();
-        PositionAllBlocks();
+        PositionAllBlocks(); 
     }
 
     // Registra todos los bloques en la cuadrícula lógica
     void RegisterAllBlocks()
     {
         grid = new objetosCocina[columns, rows];
-        objetosCocina[] blocks = FindObjectsOfType<objetosCocina>();
+        objetosCocina[] blocks = FindObjectsByType<objetosCocina>(FindObjectsSortMode.None);
         foreach (var block in blocks)
         {
             RegisterBlock(block);
@@ -51,7 +51,7 @@ public class cajon : MonoBehaviour
 
     void PositionAllBlocks()
     {
-        objetosCocina[] blocks = FindObjectsOfType<objetosCocina>();
+        objetosCocina[] blocks = FindObjectsByType<objetosCocina>(FindObjectsSortMode.None);
         foreach (var block in blocks)
         {
             Vector3 pos = GridToWorldCentered(
@@ -102,9 +102,6 @@ public class cajon : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             OnPressDown(Input.mousePosition);
 
-        if (Input.GetMouseButton(0) && selectedBlock != null)
-            OnPressDrag(Input.mousePosition);
-
         if (Input.GetMouseButtonUp(0) && selectedBlock != null)
             OnPressUp(Input.mousePosition);
 
@@ -113,7 +110,6 @@ public class cajon : MonoBehaviour
         {
             Touch t = Input.GetTouch(0);
             if (t.phase == TouchPhase.Began) OnPressDown(t.position);
-            if (t.phase == TouchPhase.Moved) OnPressDrag(t.position);
             if (t.phase == TouchPhase.Ended) OnPressUp(t.position);
         }
     }
@@ -136,12 +132,6 @@ public class cajon : MonoBehaviour
                 dragStart = worldPos;
             }
         }
-    }
-
-    void OnPressDrag(Vector2 screenPos)
-    {
-        // Visual feedback opcional: mover el sprite ligeramente mientras arrastra
-        // (no es necesario para la lógica, se aplica al soltar)
     }
 
     void OnPressUp(Vector2 screenPos)
@@ -257,6 +247,6 @@ public class cajon : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         if (winPanel != null) winPanel.SetActive(true);
-        Debug.Log("¡GANASTE!");
     }
 }
+

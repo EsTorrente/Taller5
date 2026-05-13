@@ -67,21 +67,7 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(BlockSizeData))]
-    public void BlockSize_CalculatedFromScale(
-        float scaleX, float scaleY, int expectedW, int expectedH)
-    {
-
-        GameObject obj = new GameObject();
-        obj.transform.localScale = new Vector3(scaleX, scaleY, 1f);
-        objetosCocina block = obj.AddComponent<objetosCocina>();
-        block.Awake(); 
-
-        Assert.AreEqual(expectedW, block.widthInSlots, "widthInSlots incorrecto");
-        Assert.AreEqual(expectedH, block.heightInSlots, "heightInSlots incorrecto");
-
-        Object.DestroyImmediate(obj);
-    }
-
+    
     private cajon MakeCajon(int columns = 4, int rows = 4, float slotSize = 2f)
     {
         GameObject boardObj = new GameObject();

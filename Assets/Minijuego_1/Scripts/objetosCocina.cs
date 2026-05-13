@@ -6,20 +6,14 @@ public class objetosCocina : MonoBehaviour
 {
 
     [Header("Configuración del bloque")]
-    public int gridCol;       // columna inicial (0-3)
-    public int gridRow;       // fila inicial (0-3)
-    public int widthInSlots;  // ancho en slots: escala 4 = 2 slots, escala 2 = 1 slot
-    public int heightInSlots; // alto en slots: escala 2 = 1 slot, escala 4 = 2 slots
-    public bool isWinBlock;   // ¿es el bloque amarillo ganador?
+    public int gridCol;       // columna inicial va de 0-3 (es un 4x4)
+    public int gridRow;       // fila inicial va de 0-3
+    public int widthInSlots;  // ancho en slots
+    public int heightInSlots; // alto en slots
+    public bool isWinBlock;   // es la llave
 
     [HideInInspector] public bool isSelected = false;
 
-    public void Awake()
-    {
-        // widthInSlots  = (int)(transform.localScale.x / 2)
-        // heightInSlots = (int)(transform.localScale.y / 2)
-        widthInSlots = Mathf.RoundToInt(transform.localScale.x / 2);
-        heightInSlots = Mathf.RoundToInt(transform.localScale.y / 2);
-    }
+    
 }
 

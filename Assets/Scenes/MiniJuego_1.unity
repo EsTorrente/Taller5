@@ -1867,8 +1867,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridCol: 3
   gridRow: 1
-  widthInSlots: 2
-  heightInSlots: 1
+  widthInSlots: 1
+  heightInSlots: 2
   isWinBlock: 0
   isSelected: 0
 --- !u!61 &1729555248
@@ -2260,8 +2260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridCol: 0
   gridRow: 3
-  widthInSlots: 1
-  heightInSlots: 2
+  widthInSlots: 2
+  heightInSlots: 1
   isWinBlock: 0
   isSelected: 0
 --- !u!61 &1838243184
@@ -2562,7 +2562,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1985051485}
   - component: {fileID: 1985051484}
-  - component: {fileID: 1985051486}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -2637,26 +2636,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1985051486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1985051483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb51820b611a40a4ba8d0e5397387092, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  columns: 4
-  rows: 4
-  slotSize: 2
-  boardOrigin: {fileID: 224230549}
-  exitColumn: 4
-  exitRowMin: 2
-  exitRowMax: 3
-  winPanel: {fileID: 810918499}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
