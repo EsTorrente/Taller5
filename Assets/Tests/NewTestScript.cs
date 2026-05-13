@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using System.Linq;
 
 public class NewTestScript
 {
@@ -75,8 +76,6 @@ public class NewTestScript
         yield return new TestCaseData(4f, 4f, 2, 2).SetName("Block_4x4_da_2x2slots");
         yield return new TestCaseData(6f, 2f, 3, 1).SetName("Block_6x2_da_3x1slots");
     }
-
-    [TestCaseSource(nameof(BlockSizeData))]
 
     /// Crea un tablero (cajon) listo para pruebas.
     ///
@@ -561,7 +560,7 @@ public class NewTestScript
         point.Initialize(manager);
 
         point.AddConnection(line);
-        Assert.Contains(line, point.connections);
+        Assert.IsTrue(point.Connections.Contains(line));
 
         Object.DestroyImmediate(obj);
         Object.DestroyImmediate(mgrObj);
@@ -585,7 +584,7 @@ public class NewTestScript
         point.AddConnection(line);
         point.AddConnection(line); //segunda vez, debe ignorarse
 
-        Assert.AreEqual(1, point.connections.Count);
+        Assert.AreEqual(1, point.Connections.Count);
 
         Object.DestroyImmediate(obj);
         Object.DestroyImmediate(line.gameObject);
@@ -609,7 +608,7 @@ public class NewTestScript
         point.AddConnection(line);
         point.RemoveConnection(line);
 
-        Assert.IsFalse(point.connections.Contains(line));
+        Assert.IsFalse(point.Connections.Contains(line));
 
         Object.DestroyImmediate(obj);
         Object.DestroyImmediate(line.gameObject);
@@ -633,14 +632,15 @@ public class NewTestScript
         {
             GameObject lo = new GameObject();
             lineObjects.Add(lo);
-            point.connections.Add(lo.AddComponent<ThreadLine>());
+            ThreadLine line = lo.AddComponent<ThreadLine>();
+            point.AddConnection(line);
         }
 
-        Assert.AreEqual(3, point.connections.Count, "setup: 3 líneas agregadas");
+        Assert.AreEqual(3, point.Connections.Count, "setup: 3 líneas agregadas");
 
-        point.connections.Clear();
+        point.ClearConnections();
 
-        Assert.AreEqual(0, point.connections.Count, "la lista debe quedar vacía");
+        Assert.AreEqual(0, point.Connections.Count, "la lista debe quedar vacía");
 
         Object.DestroyImmediate(obj);
         foreach (var lo in lineObjects) Object.DestroyImmediate(lo);
@@ -683,11 +683,11 @@ public class NewTestScript
             lines.Add(tl);
         }
 
-        Assert.AreEqual(lineCount, point.connections.Count, "todas las líneas agregadas");
+        Assert.AreEqual(lineCount, point.Connections.Count, "todas las líneas agregadas");
 
         foreach (var l in lines) point.RemoveConnection(l);
 
-        Assert.AreEqual(0, point.connections.Count, "todas las líneas eliminadas");
+        Assert.AreEqual(0, point.Connections.Count, "todas las líneas eliminadas");
 
         Object.DestroyImmediate(obj);
         foreach (var l in lines) Object.DestroyImmediate(l.gameObject);
