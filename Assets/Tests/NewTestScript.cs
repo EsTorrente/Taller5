@@ -178,6 +178,10 @@ public class NewTestScript
         Object.DestroyImmediate(obstaculo.gameObject);
     }
 
+    /// Casos de prueba para RegisterBlock().
+    ///
+    /// Definen diferentes tamaños y posiciones de bloques
+    /// para validar que el grid se llene correctamente.
     public static IEnumerable<TestCaseData> RegisterBlockData()
     {
         // col, row, wSlots, hSlots
@@ -188,6 +192,13 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(RegisterBlockData))]
+
+    /// Verifica que RegisterBlock() registre correctamente
+    /// el bloque en todas las celdas del grid que ocupa.
+    ///
+    /// El test recorre cada slot ocupado y comprueba
+    /// que la referencia almacenada en grid[c,r]
+    /// sea exactamente el bloque registrado.
     public void Cajon_RegisterBlock_LlenaGridCorrectamente(int col, int row, int w, int h)
     {
         cajon board = MakeCajon();
@@ -213,6 +224,17 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(WinConditionData))]
+
+    /// Verifica si el bloque ganador está dentro
+    /// del rango válido de salida.
+    ///
+    /// El test:
+    /// 1. Configura las filas de salida.
+    /// 2. Crea un bloque ganador.
+    /// 3. Calcula si entra completamente en el rango.
+    /// 4. Compara con el resultado esperado.
+    ///
+    /// Esto valida la lógica de escape del puzzle.
     public void Cajon_WinCondition_FilasDeSalida(int blockRow, bool expectedWin)
     {
         cajon board = MakeCajon();
@@ -262,6 +284,16 @@ public class NewTestScript
         return diario;
     }
 
+    /// Casos de prueba para subir y bajar dígitos.
+    ///
+    /// Incluyen:
+    /// - incrementos normales
+    /// - decrementos normales
+    /// - wrap de 9->0
+    /// - wrap de 0->9
+    ///
+    /// Permiten validar el comportamiento circular.
+
     public static IEnumerable<TestCaseData> DigitoData()
     {
         // operacion, veces, digitoInicial, esperado
@@ -275,6 +307,16 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(DigitoData))]
+
+    /// Verifica que SubirDigito() y BajarDigito()
+    /// modifiquen correctamente los números.
+    ///
+    /// El test:
+    /// 1. Inicializa un dígito.
+    /// 2. Ejecuta la operación varias veces.
+    /// 3. Comprueba el valor final.
+    ///
+    /// También valida el comportamiento tipo "contador circular".
     public void DiarioManager_Digito_SubirYBajar(
         string operacion, int veces, int digitoInicial, int esperado)
     {
@@ -291,6 +333,14 @@ public class NewTestScript
         Object.DestroyImmediate(diario.gameObject);
     }
 
+    /// Casos de prueba para comprobar códigos.
+    ///
+    /// Se prueban:
+    /// - el código correcto
+    /// - varias combinaciones incorrectas
+    ///
+    /// Esto valida la lógica de combinación.
+
     /// no llamo Comprobar() directamente pq en el caso correcto llama a SceneManager.LoadScene(), que crashea en Edit Mode
     public static IEnumerable<TestCaseData> ComprobarData()
     {
@@ -303,6 +353,15 @@ public class NewTestScript
     }
 
     [TestCaseSource(nameof(ComprobarData))]
+
+    /// Comprueba si los dígitos ingresados coinciden
+    /// con el código correcto.
+    ///
+    /// No se llama directamente Comprobar()
+    /// porque ese método carga una escena
+    /// y puede causar errores en EditMode.
+    ///
+    /// En cambio, el test replica la comparación lógica.
     public void DiarioManager_Comprobar_CoincideConCodigo(
         int d0, int d1, int d2, bool esperadoCorrecto)
     {
@@ -337,6 +396,14 @@ public class NewTestScript
     }
 
     [Test]
+
+
+    /// Verifica que AbrirDiario():
+    /// - active diarioCerrado
+    /// - active panelCombinacion
+    ///
+    /// El test desactiva primero los paneles,
+    /// ejecuta el método y comprueba que queden activos.
     public void DiarioManager_CerrarDiario_DesactivaPaneles()
     {
         DiarioManager diario = MakeDiarioManager();
