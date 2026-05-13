@@ -9,21 +9,6 @@ using System.Reflection;
 public class NewTestScript
 {
 
-    private ClueUI MakeClueUI()
-    {
-        GameObject obj = new GameObject();
-
-        Image markerImage = new GameObject().AddComponent<Image>();
-        Image baseImage = new GameObject().AddComponent<Image>();
-
-        ClueUI clueUI = obj.AddComponent<ClueUI>();
-        var type = clueUI.GetType();
-        type.GetField("markerImage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(clueUI, markerImage);
-        type.GetField("baseImage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(clueUI, baseImage);
-
-        return clueUI;
-    }
-
     // ========================
     // MINIJUEGO 1
     // ========================
@@ -321,7 +306,24 @@ public class NewTestScript
     // MINIJUEGO 3
     // ========================
 
-   public static IEnumerable<TestCaseData> ClueIsCorrectData()
+   private ClueUI MakeClueUI()
+    {
+        GameObject obj = new GameObject("TestClueUI");
+        ClueUI clueUI = obj.AddComponent<ClueUI>();
+
+        Image markerImage = new GameObject("Marker").AddComponent<Image>();
+        var type = clueUI.GetType();
+        var markerField = type.GetField("markerImage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        
+        if (markerField != null)
+        {
+            markerField.SetValue(clueUI, markerImage);
+        }
+
+        return clueUI;
+    }
+
+    public static IEnumerable<TestCaseData> ClueIsCorrectData()
     {
         yield return new TestCaseData(true, ClueState.Relevant, true)
             .SetName("Clue_Relevante_MarcadaRelevante_Correcto");
@@ -344,15 +346,12 @@ public class NewTestScript
         GameObject pmObj = new GameObject("DummyPM");
         PhotoManager dummyPM = pmObj.AddComponent<PhotoManager>();
 
-        // En lugar de intentar asignarlo a la variable privada, 
-        // simplemente creamos la data...
         ClueData newClueData = new ClueData
         {
             isActuallyRelevant = isActuallyRelevant,
             currentState = stateToSet
         };
 
-        // ...y la inyectamos limpiamente a través de nuestro método Init.
         clueUI.Init(newClueData, dummyPM);
 
         Assert.AreEqual(expectedResult, clueUI.IsCorrect());
@@ -365,11 +364,29 @@ public class NewTestScript
     public void Clue_CycleState_WrapsCorrectly()
     {
         ClueUI clueUI = MakeClueUI();
+        ClueUI blockerClue = MakeClueUI();
+
         GameObject pmObj = new GameObject("DummyPM");
         PhotoManager dummyPM = pmObj.AddComponent<PhotoManager>();
+        
+        var pmType = dummyPM.GetType();
+        
+        var photosField = pmType.GetField("photos", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (photosField != null)
+        {
+            photosField.SetValue(dummyPM, new System.Collections.Generic.List<PhotoData> { new PhotoData() });
+        }
+
+        var activeCluesField = pmType.GetField("activeClues", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (activeCluesField != null)
+        {
+            activeCluesField.SetValue(dummyPM, new System.Collections.Generic.List<ClueUI> { clueUI, blockerClue });
+        }
 
         ClueData data = new ClueData { currentState = ClueState.None };
         clueUI.Init(data, dummyPM);
+
+        blockerClue.Init(new ClueData { currentState = ClueState.None, isActuallyRelevant = true }, dummyPM);
 
         Assert.AreEqual(ClueState.None, clueUI.GetState(), "empieza en None");
         
@@ -383,9 +400,9 @@ public class NewTestScript
         Assert.AreEqual(ClueState.None, clueUI.GetState(), "3er ciclo vuelve a None");
 
         Object.DestroyImmediate(clueUI.gameObject);
+        Object.DestroyImmediate(blockerClue.gameObject); // Destruimos también el estorbo
         Object.DestroyImmediate(pmObj);
     }
-
     // ========================
     // MINIJUEGO 4
     // ========================
