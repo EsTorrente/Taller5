@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BOTON ADELANTAR 1_0: -6483179953571555091
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

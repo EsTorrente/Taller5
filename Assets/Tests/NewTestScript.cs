@@ -8,22 +8,6 @@ using System.Linq;
 
 public class NewTestScript
 {
-
-    /// creo un ClueUI con baseImage y markerImage asignados pq sin esto, SetClue() / UpdateVisual() lanza NullReferenceException
-    private ClueUI MakeClueUI()
-    {
-        GameObject obj = new GameObject();
-
-        Image markerImage = new GameObject().AddComponent<Image>();
-        Image baseImage = new GameObject().AddComponent<Image>();
-
-        ClueUI clueUI = obj.AddComponent<ClueUI>();
-        clueUI.markerImage = markerImage;
-        clueUI.baseImage = baseImage;
-
-        return clueUI;
-    }
-
     // ========================
     // MINIJUEGO 1
     // ========================
@@ -424,6 +408,23 @@ public class NewTestScript
     // MINIJUEGO 3
     // ========================
 
+    private ClueUI MakeClueUI()
+    {
+        GameObject obj = new GameObject("TestClueUI");
+        ClueUI clueUI = obj.AddComponent<ClueUI>();
+
+        Image markerImage = new GameObject("Marker").AddComponent<Image>();
+        var type = clueUI.GetType();
+        var markerField = type.GetField("markerImage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        
+        if (markerField != null)
+        {
+            markerField.SetValue(clueUI, markerImage);
+        }
+
+        return clueUI;
+    }
+
     /// Se prueban:
     /// - pistas relevantes correctamente marcadas
     /// - pistas irrelevantes correctamente marcadas
@@ -433,7 +434,6 @@ public class NewTestScript
     /// Así se valida toda la lógica de evaluación.
     public static IEnumerable<TestCaseData> ClueIsCorrectData()
     {
-        //isActuallyRelevant, stateToSet, expectedResult
         yield return new TestCaseData(true, ClueState.Relevant, true)
             .SetName("Clue_Relevante_MarcadaRelevante_Correcto");
         yield return new TestCaseData(false, ClueState.Irrelevant, true)
@@ -462,17 +462,22 @@ public class NewTestScript
         bool isActuallyRelevant, ClueState stateToSet, bool expectedResult)
     {
         ClueUI clueUI = MakeClueUI();
-        clueUI.clueData = new ClueData
+        
+        GameObject pmObj = new GameObject("DummyPM");
+        PhotoManager dummyPM = pmObj.AddComponent<PhotoManager>();
+
+        ClueData newClueData = new ClueData
         {
             isActuallyRelevant = isActuallyRelevant,
             currentState = stateToSet
         };
 
-        clueUI.SetClue(clueUI.clueData);
+        clueUI.Init(newClueData, dummyPM);
 
         Assert.AreEqual(expectedResult, clueUI.IsCorrect());
 
         Object.DestroyImmediate(clueUI.gameObject);
+        Object.DestroyImmediate(pmObj);
     }
 
     [Test]
@@ -486,51 +491,115 @@ public class NewTestScript
     /// del jugador funcione correctamente.
     public void Clue_CycleState_WrapsCorrectly()
     {
-        Clue clue = new RelevantClue("test");
+        ClueUI clueUI = MakeClueUI();
+        ClueUI blockerClue = MakeClueUI();
 
-        Assert.AreEqual(ClueState.None, clue.GetState(), "empieza en None");
-        clue.CycleState();
-        Assert.AreEqual(ClueState.Relevant, clue.GetState(), "1er ciclo es Relevant");
-        clue.CycleState();
-        Assert.AreEqual(ClueState.Irrelevant, clue.GetState(), "2do ciclo es Irrelevant");
-        clue.CycleState();
-        Assert.AreEqual(ClueState.None, clue.GetState(), "3er ciclo vuelve a None");
+        GameObject pmObj = new GameObject("DummyPM");
+        PhotoManager dummyPM = pmObj.AddComponent<PhotoManager>();
+        
+        var pmType = dummyPM.GetType();
+        
+        var photosField = pmType.GetField("photos", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (photosField != null)
+        {
+            photosField.SetValue(dummyPM, new System.Collections.Generic.List<PhotoData> { new PhotoData() });
+        }
+
+        var activeCluesField = pmType.GetField("activeClues", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (activeCluesField != null)
+        {
+            activeCluesField.SetValue(dummyPM, new System.Collections.Generic.List<ClueUI> { clueUI, blockerClue });
+        }
+
+        ClueData data = new ClueData { currentState = ClueState.None };
+        clueUI.Init(data, dummyPM);
+
+        blockerClue.Init(new ClueData { currentState = ClueState.None, isActuallyRelevant = true }, dummyPM);
+
+        Assert.AreEqual(ClueState.None, clueUI.GetState(), "empieza en None");
+        
+        clueUI.OnClick(); 
+        Assert.AreEqual(ClueState.Relevant, clueUI.GetState(), "1er ciclo es Relevant");
+        
+        clueUI.OnClick();
+        Assert.AreEqual(ClueState.Irrelevant, clueUI.GetState(), "2do ciclo es Irrelevant");
+        
+        clueUI.OnClick();
+        Assert.AreEqual(ClueState.None, clueUI.GetState(), "3er ciclo vuelve a None");
+
+        Object.DestroyImmediate(clueUI.gameObject);
+        Object.DestroyImmediate(blockerClue.gameObject); // Destruimos también el estorbo
+        Object.DestroyImmediate(pmObj);
     }
 
     [Test]
-
     /// Comprueba que una pista relevante
     /// solo sea considerada correcta
     /// cuando está marcada como Relevant.
-    ///
-    /// Los demás estados deben dar false.
     public void RelevantClue_IsCorrect_SoloEnRelevant()
     {
-        Clue clue = new RelevantClue("test");
+        ClueUI clueUI = MakeClueUI();
+        ClueUI blockerClue = MakeClueUI(); // La pista estorbo
 
-        Assert.IsFalse(clue.IsCorrect(), "None es incorrecto");
-        clue.CycleState(); // rel
-        Assert.IsTrue(clue.IsCorrect(), "Relevant es correcto");
-        clue.CycleState(); // irr
-        Assert.IsFalse(clue.IsCorrect(), "Irrelevant es incorrecto");
+        GameObject pmObj = new GameObject("DummyPM");
+        PhotoManager dummyPM = pmObj.AddComponent<PhotoManager>();
+
+        var pmType = dummyPM.GetType();
+        var photosField = pmType.GetField("photos", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (photosField != null) photosField.SetValue(dummyPM, new System.Collections.Generic.List<PhotoData> { new PhotoData() });
+
+        var activeCluesField = pmType.GetField("activeClues", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (activeCluesField != null) activeCluesField.SetValue(dummyPM, new System.Collections.Generic.List<ClueUI> { clueUI, blockerClue });
+
+        // AQUI ESTÁ LA MAGIA: Le decimos que de verdad ES una pista relevante
+        ClueData data = new ClueData { currentState = ClueState.None, isActuallyRelevant = true };
+        clueUI.Init(data, dummyPM);
+        blockerClue.Init(new ClueData { currentState = ClueState.None, isActuallyRelevant = true }, dummyPM);
+
+        Assert.IsFalse(clueUI.IsCorrect(), "None es incorrecto");
+        clueUI.OnClick(); // Cambia a Relevant
+        Assert.IsTrue(clueUI.IsCorrect(), "Relevant es correcto");
+        clueUI.OnClick(); // Cambia a Irrelevant
+        Assert.IsFalse(clueUI.IsCorrect(), "Irrelevant es incorrecto");
+
+        Object.DestroyImmediate(clueUI.gameObject);
+        Object.DestroyImmediate(blockerClue.gameObject);
+        Object.DestroyImmediate(pmObj);
     }
 
     [Test]
-
-    /// Comprueba que una pista relevante
+    /// Comprueba que una pista irrelevante
     /// solo sea considerada correcta
-    /// cuando está marcada como Relevant.
-    ///
-    /// Los demás estados deben dar false.
+    /// cuando está marcada como Irrelevant.
     public void IrrelevantClue_IsCorrect_SoloEnIrrelevant()
     {
-        Clue clue = new IrrelevantClue("test");
+        ClueUI clueUI = MakeClueUI();
+        ClueUI blockerClue = MakeClueUI(); // La pista estorbo
 
-        Assert.IsFalse(clue.IsCorrect(), "None es incorrecto");
-        clue.CycleState(); // rel
-        Assert.IsFalse(clue.IsCorrect(), "Relevant es incorrecto");
-        clue.CycleState(); // irr
-        Assert.IsTrue(clue.IsCorrect(), "Irrelevant es correcto");
+        GameObject pmObj = new GameObject("DummyPM");
+        PhotoManager dummyPM = pmObj.AddComponent<PhotoManager>();
+
+        var pmType = dummyPM.GetType();
+        var photosField = pmType.GetField("photos", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (photosField != null) photosField.SetValue(dummyPM, new System.Collections.Generic.List<PhotoData> { new PhotoData() });
+
+        var activeCluesField = pmType.GetField("activeClues", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (activeCluesField != null) activeCluesField.SetValue(dummyPM, new System.Collections.Generic.List<ClueUI> { clueUI, blockerClue });
+
+        // AQUI ESTÁ LA MAGIA: Le decimos que NO ES una pista relevante (es falsa)
+        ClueData data = new ClueData { currentState = ClueState.None, isActuallyRelevant = false };
+        clueUI.Init(data, dummyPM);
+        blockerClue.Init(new ClueData { currentState = ClueState.None, isActuallyRelevant = true }, dummyPM);
+
+        Assert.IsFalse(clueUI.IsCorrect(), "None es incorrecto");
+        clueUI.OnClick(); // Cambia a Relevant
+        Assert.IsFalse(clueUI.IsCorrect(), "Relevant es incorrecto");
+        clueUI.OnClick(); // Cambia a Irrelevant
+        Assert.IsTrue(clueUI.IsCorrect(), "Irrelevant es correcto");
+
+        Object.DestroyImmediate(clueUI.gameObject);
+        Object.DestroyImmediate(blockerClue.gameObject);
+        Object.DestroyImmediate(pmObj);
     }
 
     // ========================

@@ -11,7 +11,7 @@ public class DiarioManager : MonoBehaviour
     public GameObject panelCombinacion;
     public GameObject diarioLyra;
 
-    // En el inspector aparecen 3 casillas para asignar los textos que se usaran en la contraseña
+    // En el inspector aparecen 3 casillas para asignar los textos que se usaran en la contraseï¿½a
     [Header("Textos de las casillas")]
     public TextMeshProUGUI texto1;
     public TextMeshProUGUI texto2;
@@ -25,7 +25,7 @@ public class DiarioManager : MonoBehaviour
 
     // En el inspector aparecera el array en ceros que corresponde a los numeros del usuario al iniciar el juego
     public int[] digitos = { 0, 0, 0 };
-    // En el inspector aparecera el array con los numeros de la contraseña correcta
+    // En el inspector aparecera el array con los numeros de la contraseï¿½a correcta
     public int[] codigoCorrecto = { 5, 6, 2 };
 
     void Start()
@@ -48,6 +48,8 @@ public class DiarioManager : MonoBehaviour
         // Cuando le das click al objeto que tiene asignado este codigo, apaga los objetos que antes tenias prendidos.
         diarioCerrado.SetActive(false);
         panelCombinacion.SetActive(false);
+
+        diarioLyra.SetActive(true);
 
     }
 

@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Normas minijuego 1_0: 139734930061666901
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
